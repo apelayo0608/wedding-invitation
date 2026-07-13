@@ -8,3 +8,9 @@ export async function startInvitationMusic(audio) {
     return false;
   }
 }
+
+export function playMusicThenOpen(audio, openInvitation) {
+  const playback = startInvitationMusic(audio);
+  openInvitation();
+  return playback;
+}

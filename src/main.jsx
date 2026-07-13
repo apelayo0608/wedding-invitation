@@ -5,7 +5,7 @@ import { ArrowDown, CalendarDays, Check, ChevronDown, ExternalLink, Gift, Heart,
 import { adminLogin, changeAdminPassword, deleteAdminRsvp, exportAdminRsvps, getAdminRsvps, getAdminSession, getPublicEvent, saveAdminEvent, saveAdminSponsors, submitRsvp, uploadAdminFile, validatePasswordChange } from './api.js';
 import { normalizeContact, validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
-import { startInvitationMusic } from './lib/music.js';
+import { playMusicThenOpen, startInvitationMusic } from './lib/music.js';
 import './styles.css';
 
 const FALLBACK_EVENT = {
@@ -110,7 +110,7 @@ function Invitation({ event }) {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const musicRef = React.useRef(null);
   useEffect(() => { getPublicEvent().then((data) => { if (data) setLiveEvent((current) => ({ ...current, ...data })); }); }, []);
-  const openInvitation = async () => { setOpened(true); setMusicPlaying(await startInvitationMusic(musicRef.current)); };
+  const openInvitation = () => { playMusicThenOpen(musicRef.current, () => setOpened(true)).then(setMusicPlaying); };
   return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand">K<span>&</span>L</a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><p className="script">{formatDate(liveEvent.couple.date)}</p><div className="hero-rule" /><p>For His light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">A day made beautiful by love</span><h2>We found our way<br /><em>to forever.</em></h2><p className="lede">Two hearts, one promise, and a lifetime of memories waiting to begin. We would be honored to have you with us as we say “I do.”</p><Countdown target={liveEvent.couple.date} /></Section>

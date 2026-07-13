@@ -209,8 +209,13 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
 
 @media (max-width: 900px) {
   .section { padding: 82px 0; }
-  .site-nav { padding: 0 20px; }
-  .site-nav nav { display: none; }
+  .site-nav { min-height: 64px; gap: 14px; padding: 0 20px; }
+  .site-nav .brand { flex: 0 0 auto; }
+  .site-nav nav { display: flex; flex: 1 1 auto; justify-content: flex-start; gap: 20px; overflow-x: auto; padding: 9px 0; scrollbar-width: none; white-space: nowrap; }
+  .site-nav nav::-webkit-scrollbar { display: none; }
+  .site-nav nav a { flex: 0 0 auto; }
+  .music-control { flex: 0 0 auto; }
+  .music-control span { display: none; }
   .hero { grid-template-columns: 1fr; }
   .hero-image { min-height: 62vh; background-position: 47% 18%; }
   .hero-copy { min-height: 430px; padding: 70px 28px 65px; text-align: center; align-items: center; }

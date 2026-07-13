@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import { changeAdminPassword, joinApiUrl, resolveApiAssetUrl, selectApiBase, validatePasswordChange } from '../src/api.js';
+import { changeAdminPassword, joinApiUrl, resolveApiAssetUrl, selectApiBase, withMusicCorsCacheKey, validatePasswordChange } from '../src/api.js';
 
 test('joins an API base and endpoint without duplicate slashes', () => {
   assert.equal(joinApiUrl('https://events.fitacademy.ph/api/kathreen/', '/admin/session'), 'https://events.fitacademy.ph/api/kathreen/admin/session');
@@ -17,6 +17,11 @@ test('uses the same-site API proxy while running Vite locally', () => {
 test('resolves media URLs against the API host', () => {
   assert.equal(resolveApiAssetUrl('/api/private-media.php?file=music.mp3', 'https://events.fitacademy.ph/api/kath'), 'https://events.fitacademy.ph/api/private-media.php?file=music.mp3');
   assert.equal(resolveApiAssetUrl('https://cdn.example.test/music.mp3', 'https://events.fitacademy.ph/api/kath'), 'https://cdn.example.test/music.mp3');
+});
+
+test('uses a fresh CORS-enabled response for wedding music', () => {
+  assert.equal(withMusicCorsCacheKey('https://events.fitacademy.ph/api/kath/private-media.php?file=music.mp3'), 'https://events.fitacademy.ph/api/kath/private-media.php?file=music.mp3&cors=1');
+  assert.equal(withMusicCorsCacheKey(''), '');
 });
 
 test('validates an admin password change before submitting it', () => {

@@ -16,6 +16,17 @@ export function resolveApiAssetUrl(value, base = API_BASE) {
   try { return new URL(value, base).toString(); } catch { return value; }
 }
 
+export function withMusicCorsCacheKey(url) {
+  if (!url) return '';
+  try {
+    const musicUrl = new URL(url);
+    musicUrl.searchParams.set('cors', '1');
+    return musicUrl.toString();
+  } catch {
+    return url;
+  }
+}
+
 export function validatePasswordChange({ currentPassword = '', newPassword = '', confirmPassword = '' } = {}) {
   const errors = {};
   if (!String(currentPassword).trim()) errors.currentPassword = 'Enter your current password.';
@@ -50,7 +61,7 @@ export async function getPublicEvent() {
   try {
     const response = await apiRequest('/public/event');
     const data = response.data || response;
-    return { ...data, musicUrl: resolveApiAssetUrl(data.musicUrl) };
+    return { ...data, musicUrl: withMusicCorsCacheKey(resolveApiAssetUrl(data.musicUrl)) };
   } catch {
     return null;
   }

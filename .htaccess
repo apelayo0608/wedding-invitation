@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Let the PHP API and real assets pass through unchanged.
+RewriteRule ^api(?:/|$) - [L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# React handles the public invitation and /admin route.
+RewriteRule ^ index.html [L]

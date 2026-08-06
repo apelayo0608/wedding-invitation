@@ -18,3 +18,9 @@ test('keeps invitation links visible and scrollable on mobile', () => {
   const mobileStyles = styles.match(/@media \(max-width: 900px\) \{([\s\S]*?)\n\}/)?.[1] || '';
   assert.match(mobileStyles, /\.site-nav nav\s*\{\s*display:\s*flex;[\s\S]*overflow-x:\s*auto;/);
 });
+
+test('compacts the mobile header so navigation links do not collide with music controls', () => {
+  const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const phoneStyles = styles.match(/@media \(max-width: 580px\) \{([\s\S]*?)\n\}/)?.[1] || '';
+  assert.match(phoneStyles, /\.site-nav nav\s*\{[\s\S]*gap:\s*12px;[\s\S]*font-size:\s*\.72rem;/);
+});

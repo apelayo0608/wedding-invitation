@@ -135,11 +135,14 @@ blockquote { margin: 18px 0 24px; font-family: 'Cormorant Garamond', serif; font
 .attire-illustration { display: grid; place-items: center; width: min(690px, 100%); min-height: 220px; margin-top: 48px; border: 1px solid #dfd5ca; border-radius: 8px; background: #f5eee6; }
 .attire-illustration img { display: block; width: 205px; height: auto; }
 .attire-note { margin: 46px 0 0; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; }
-.gift-section { display: flex; flex-direction: column; align-items: center; max-width: 760px; text-align: center; }
-.gift-section > svg { margin-bottom: 22px; color: #a26a4c; }
-.gift-section p { max-width: 490px; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; line-height: 1.4; }
+.gift-section { max-width: 920px; padding-top: 40px; text-align: left; }
+.gift-card { position: relative; overflow: hidden; padding: 70px; background: linear-gradient(115deg, rgba(82,32,0,.93), rgba(144,88,59,.89)), url('./assets/last-page.jpg') center bottom / cover; color: #fff; box-shadow: var(--shadow); }
+.gift-card .eyebrow { color: #e9cdb9; }
+.gift-card h2 { max-width: 440px; }
+.gift-card p { max-width: 420px; color: #eeded2; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; line-height: 1.4; }
+.gift-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 28px; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; }
 .gallery-section { max-width: 920px; padding-top: 40px; }
-.gallery-card { position: relative; overflow: hidden; padding: 70px; background: linear-gradient(115deg, rgba(82,32,0,.93), rgba(144,88,59,.89)), url('./assets/last-page.jpg') center bottom / cover; color: #fff; box-shadow: var(--shadow); }
+.gallery-card { position: relative; overflow: hidden; padding: 70px; background: linear-gradient(115deg, rgba(82,32,0,.93), rgba(144,88,59,.89)), url('./assets/photos-coming-soon.jpg') center 15% / cover; color: #fff; box-shadow: var(--shadow); }
 .gallery-card .eyebrow { color: #e9cdb9; }
 .gallery-card h2 { max-width: 440px; }
 .gallery-card p { max-width: 420px; color: #eeded2; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; }
@@ -255,7 +258,7 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .section { padding: 82px 0; }
   .site-nav { min-height: 64px; gap: 14px; padding: 0 20px; }
   .site-nav .brand { flex: 0 0 auto; }
-  .site-nav nav { display: flex; flex: 1 1 auto; justify-content: flex-start; gap: 20px; overflow-x: auto; padding: 9px 0; scrollbar-width: none; white-space: nowrap; }
+  .site-nav nav { display: flex; min-width: 0; flex: 1 1 auto; justify-content: flex-start; gap: 20px; overflow-x: auto; padding: 9px 0; scrollbar-width: none; white-space: nowrap; }
   .site-nav nav::-webkit-scrollbar { display: none; }
   .site-nav nav a { flex: 0 0 auto; }
   .music-control { flex: 0 0 auto; }
@@ -290,6 +293,11 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
 @media (max-width: 580px) {
   .section { width: min(100% - 32px, 520px); padding: 68px 0; }
   h2 { font-size: 3.3rem; }
+  .site-nav { gap: 8px; padding: 0 14px; }
+  .site-nav .brand, .site-nav-monogram { width: 46px; height: 46px; }
+  .site-nav nav { gap: 12px; font-size: .72rem; }
+  .music-control { gap: 3px; }
+  .music-control button { width: 28px; height: 28px; }
   .welcome-envelope { width: min(280px, calc(100% - 28px)); min-height: 285px; }
   .welcome-card { min-height: 285px; padding: 16px 14px 12px; }
   .welcome-monogram { width: min(118px, 100%); }
@@ -321,9 +329,10 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .secondary-row { grid-template-columns: 1fr; gap: 13px; }
   .secondary-names { grid-template-columns: 1fr; gap: 8px; text-align: center; }
   .secondary-names span:nth-child(3), .secondary-names span:nth-child(4) { grid-column: auto; }
-  .entourage-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 18px; }
-  .entourage-footer-grid > .sponsor-group:first-child, .entourage-footer-pair, .entourage-footer-grid > .sponsor-group:last-child { grid-column: auto; }
-  .entourage-footer-pair { grid-column: 1 / -1; }
+  .entourage-footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .entourage-footer-grid > .sponsor-group:first-child, .entourage-footer-pair, .entourage-footer-grid > .sponsor-group:last-child { grid-column: 1; width: 100%; }
+  .entourage-footer-grid .sponsor-group, .entourage-footer-pair { text-align: center; }
+  .entourage-footer-grid .sponsor-group h3 { text-align: center; }
   .attire-section { padding: 76px 16px 84px; }
   .attire-heading { margin: 28px 0 25px; font-size: clamp(2.7rem, 11vw, 4.7rem); }
   .attire-description { font-size: 1.15rem; line-height: 1.35; }
@@ -332,7 +341,7 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .attire-illustration { min-height: 175px; margin-top: 36px; }
   .attire-illustration img { width: 180px; }
   .attire-note { margin-top: 34px; }
-  .gallery-card { padding: 45px 28px; }
+  .gift-card, .gallery-card { padding: 45px 28px; }
   .rsvp-side, .rsvp-form { padding: 48px 25px; }
   .rsvp-form { padding: 30px 24px 20px; }
   .rsvp-intro { margin-bottom: 34px; }

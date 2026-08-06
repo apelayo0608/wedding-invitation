@@ -10,6 +10,7 @@ test('uses the Kath landing assets on the welcome screen', () => {
 
   assert.equal(existsSync(new URL('../src/assets/landing-page.jpg', import.meta.url)), true);
   assert.equal(existsSync(new URL('../src/assets/first-page.jpg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../src/assets/people-transparent.png', import.meta.url)), true);
   assert.equal(existsSync(new URL('../src/assets/monogram.png', import.meta.url)), true);
   assert.equal(monogram[25], 6);
   assert.match(source, /import monogramImage from ['"]\.\/assets\/monogram\.png['"]/);
@@ -41,6 +42,12 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /className="hero-event-meta"/);
   assert.match(source, /className="hero-venue"/);
   assert.match(source, /className="footer-monogram"/);
+  assert.match(source, /import peopleImage from ['"]\.\/assets\/people-transparent\.png['"]/);
+  assert.match(source, /href="#motif"/);
+  assert.match(source, /id="motif"/);
+  assert.match(source, /className="attire-heading"/);
+  assert.match(source, /className="attire-illustration"/);
+  assert.match(source, /formatAttire\(liveEvent\.attire\)/);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
   assert.match(styles, /url\(['"]\.\/assets\/first-page\.jpg['"]\)/);
   assert.match(styles, /\.hero::before \{[^}]*backdrop-filter: blur/);
@@ -51,6 +58,8 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.hero-copy > p:not\(\.hero-venue\) \{[^}]*font-size: 1\.5rem/);
   assert.match(styles, /\.site-nav nav \{[^}]*font-size: \.82rem/);
   assert.match(styles, /\.footer-monogram \{[^}]*width: 82px/);
+  assert.match(styles, /\.site-nav \{[^}]*background: rgba\(45,33,26,\.96\)/);
+  assert.match(styles, /\.site-nav nav a:hover, \.site-nav nav a\[href="#motif"\] \{[^}]*color: #d5aa6b/);
   assert.match(styles, /\.intro-section \{[^}]*background: var\(--white\)/);
   assert.match(styles, /\.date-heading \{[^}]*font-size: clamp\(3\.2rem, 6vw, 5\.7rem\)/);
   assert.match(styles, /\.countdown \{[^}]*grid-template-columns: repeat\(4/);
@@ -61,6 +70,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.parents-grid, \.honor-grid \{[^}]*grid-template-columns: repeat\(2/);
   assert.match(styles, /\.secondary-row \{[^}]*grid-template-columns: 220px 1fr/);
   assert.match(styles, /\.entourage-footer-grid \{[^}]*grid-template-columns: repeat\(4/);
+  assert.match(styles, /\.attire-section \{[^}]*background: var\(--white\)/);
+  assert.match(styles, /\.attire-illustration \{[^}]*background: #f5eee6/);
+  assert.match(styles, /\.swatches span \{[^}]*width: 94px/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);

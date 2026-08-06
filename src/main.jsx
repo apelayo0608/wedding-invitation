@@ -7,6 +7,7 @@ import { normalizeContact, validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
 import { startInvitationMusic } from './lib/music.js';
 import monogramImage from './assets/monogram.png';
+import peopleImage from './assets/people-transparent.png';
 import './styles.css';
 
 const FALLBACK_EVENT = {
@@ -49,6 +50,11 @@ function formatTime(value) {
 
 function formatTimeOfDay(value) {
   return `${formatTime(value).replace(/\s?(AM|PM)$/, '')} in the ${formatTime(value).endsWith('PM') ? 'Afternoon' : 'Morning'}`;
+}
+
+function formatAttire(value) {
+  const text = String(value || '').trim();
+  return text ? `Guests are kindly encouraged to wear ${text.charAt(0).toLowerCase()}${text.slice(1)}` : 'Guests are kindly encouraged to wear semi-formal attire in shades of brown, beige, khaki, and other earth tones.';
 }
 
 function Countdown({ target }) {
@@ -159,13 +165,13 @@ function Invitation({ event }) {
     startInvitationMusic(musicRef.current).then(setMusicPlaying);
     window.setTimeout(() => setOpened(true), reduce ? 0 : ENVELOPE_OPEN_DURATION);
   };
-  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
+  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Motif</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In his light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow">The details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
     <Section className="quote-section"><div className="quote-mark">“</div><blockquote>Love is not just looking at each other, it’s looking in the same direction.</blockquote><span className="eyebrow">— Antoine de Saint-Exupéry</span></Section>
     <Entourage event={liveEvent} />
-    <Section className="attire-section"><div className="attire-copy"><span className="eyebrow">Guests are kindly encouraged</span><h2>Dress in <em>earth tones.</em></h2><p>{liveEvent.attire}</p><div className="swatches"><span style={{ background: '#522000' }} /><span style={{ background: '#463932' }} /><span style={{ background: '#965c41' }} /><span style={{ background: '#c5b59e' }} /><span style={{ background: '#71462f' }} /></div></div><div className="attire-photo" /></Section>
+    <Section id="motif" className="attire-section"><span className="eyebrow">Guest attire</span><h2 className="attire-heading">Dress Code</h2><p className="attire-description">{formatAttire(liveEvent.attire)}</p><div className="swatches"><span style={{ background: '#522000' }} /><span style={{ background: '#463932' }} /><span style={{ background: '#965c41' }} /><span style={{ background: '#c5b59e' }} /><span style={{ background: '#71462f' }} /></div><div className="attire-illustration"><img src={peopleImage} alt="Guests wearing earth-tone semi-formal attire" /></div><p className="attire-note">Kindly avoid white, ivory, and champagne, reserved for the couple.</p></Section>
     <Section className="gift-section"><Gift size={26} /><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{liveEvent.giftNote}</p></Section>
     <Section className="gallery-section"><div className="gallery-card"><div className="gallery-icon"><Heart size={22} /></div><span className="eyebrow">Wedding memories</span><h2>Let’s relive<br /><em>the happy moments.</em></h2><p>We’ll share the photographs from our special day here.</p>{liveEvent.galleryPublished && liveEvent.galleryUrl ? <a className="button button-dark" href={liveEvent.galleryUrl} target="_blank" rel="noreferrer">View wedding photos <ExternalLink size={16} /></a> : <span className="coming-soon">Photos coming soon</span>}</div></Section>
     <Section id="rsvp" className="rsvp-section"><div className="rsvp-panel"><div className="rsvp-side"><span className="eyebrow">We hope you can join us</span><h2>Say <em>yes</em> to a day of love.</h2><p>Kindly let us know if you’ll be there to celebrate this new chapter with us.</p><div className="rsvp-details"><span><CalendarDays size={18} /> {formatDate(liveEvent.couple.date)}</span><span><MapPin size={18} /> Tarlac City, Philippines</span></div></div><RsvpForm event={liveEvent} /></div></Section>

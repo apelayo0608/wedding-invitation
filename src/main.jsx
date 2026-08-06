@@ -6,7 +6,7 @@ import { adminLogin, changeAdminPassword, deleteAdminRsvp, exportAdminRsvps, get
 import { normalizeContact, validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
 import { playMusicThenOpen, startInvitationMusic } from './lib/music.js';
-import monogramImage from './assets/monogram.png';
+import monogramImage from './assets/monogram-transparent.png';
 import './styles.css';
 
 const FALLBACK_EVENT = {
@@ -52,10 +52,9 @@ function OpenInvitation({ onOpen, event }) {
   return <motion.div className="welcome-screen" initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.04 }} transition={{ duration: 0.6 }}>
     <div className="welcome-photo" />
     <div className="welcome-card">
-      <span className="eyebrow">The wedding of</span>
       <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
       <p className="script welcome-date">{formatDate(event.couple.date)}</p>
-      <p className="welcome-note">“For His light, we found each other.”</p>
+      <p className="welcome-note">In his light, we found each other.</p>
       <button className="button button-dark" onClick={onOpen}><Heart size={16} /> Open invitation</button>
     </div>
   </motion.div>;

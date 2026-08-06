@@ -146,30 +146,22 @@ blockquote { margin: 18px 0 24px; font-family: 'Cormorant Garamond', serif; font
 .gallery-card .button-dark { background: #fff; color: var(--brown); }
 .gallery-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 28px; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; }
 .coming-soon { display: inline-flex; padding: 12px 18px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; color: #f3dfd1; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
-.rsvp-section { max-width: 1280px; padding: 5%; background: var(--sand); }
-.rsvp-panel { display: grid; grid-template-columns: .85fr 1.15fr; background: var(--white); box-shadow: var(--shadow); }
-.rsvp-side { display: flex; flex-direction: column; justify-content: center; padding: 70px 12%; background: var(--brown); color: #fff; }
-.rsvp-side .eyebrow { color: #eacbb9; }
-.rsvp-side h2 { font-size: clamp(3.1rem, 5vw, 5rem); }
-.rsvp-side p { max-width: 360px; color: #e9d9cf; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; line-height: 1.38; }
-.rsvp-details { display: grid; gap: 13px; margin-top: 30px; color: #eddbce; font-size: .78rem; }
-.rsvp-details span { display: flex; align-items: center; gap: 10px; }
-.rsvp-form { display: grid; gap: 19px; padding: 70px 10%; }
-.form-intro h2 { font-size: 3.1rem; margin-bottom: 0; }
+.rsvp-section { max-width: none; padding: 100px 24px 110px; background: var(--white); text-align: center; }
+.rsvp-intro { width: min(1080px, 100%); margin: 0 auto 52px; }
+.rsvp-intro .eyebrow { color: #b1844b; }
+.rsvp-intro h2 { margin: 36px 0 30px; color: #2f211a; font-family: 'Bookman Old Style', 'Bookman', Georgia, serif; font-size: clamp(3rem, 5vw, 4.2rem); font-weight: 700; line-height: .98; }
+.rsvp-intro p { margin: 0 auto; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; line-height: 1.35; }
+.rsvp-panel { background: var(--white); }
+.rsvp-form { display: grid; gap: 24px; width: min(582px, 100%); margin: 0 auto; padding: 38px 41px 20px; border: 2px solid #e6ddd3; border-radius: 8px; background: var(--white); text-align: left; }
 .rsvp-form label, .rsvp-form legend, .settings-card label { display: grid; gap: 8px; color: var(--brown); font-size: .75rem; font-weight: 600; letter-spacing: .04em; }
-.rsvp-form input, .rsvp-form textarea, .settings-card input, .settings-card textarea, .sponsor-editor input { width: 100%; min-height: 46px; border: 1px solid var(--line); border-radius: 2px; padding: 11px 13px; background: #fffdfa; color: var(--ink); outline: none; }
+.rsvp-form input, .rsvp-form textarea, .settings-card input, .settings-card textarea, .sponsor-editor input { width: 100%; min-height: 46px; border: 1px solid var(--line); border-radius: 5px; padding: 11px 13px; background: #f4eee7; color: var(--ink); outline: none; }
 .rsvp-form input:focus, .settings-card input:focus, .settings-card textarea:focus, .sponsor-editor input:focus { border-color: var(--brown); box-shadow: 0 0 0 3px rgba(82,32,0,.08); }
 .rsvp-form fieldset { margin: 0; padding: 0; border: 0; }
-.choice-row { display: flex; gap: 10px; }
-.choice { display: flex !important; grid-template-columns: auto 1fr; align-items: center; gap: 9px !important; min-height: 43px; padding: 0 13px; border: 1px solid var(--line); border-radius: 2px; cursor: pointer; }
-.choice input { min-height: auto; width: auto; accent-color: var(--brown); }
-.choice:has(input:checked) { border-color: var(--brown); background: #f7eee7; }
+.choice-row { display: flex; gap: 14px; }
+.choice { position: relative; display: flex !important; flex: 1; align-items: center; justify-content: center; gap: 0 !important; min-height: 46px; padding: 0 13px; border: 1px solid #2f211a; border-radius: 999px; color: #2f211a; cursor: pointer; text-align: center; }
+.choice input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.choice:has(input:checked) { border-color: #2f211a; background: #2f211a; color: #fff; }
 .rsvp-form small, .form-error { color: #a33d2f; font-size: .72rem; font-weight: 500; letter-spacing: 0; }
-.companions { display: grid; gap: 10px; }
-.field-heading { display: flex; align-items: center; justify-content: space-between; }
-.field-heading label { display: block; }
-.field-heading label span { color: var(--muted); font-weight: 400; }
-.icon-button { width: auto; height: 34px; padding: 0 12px; font-size: .7rem; }
 .duplicate-notice { padding: 17px; border-left: 3px solid var(--brown); background: #f7eee7; }
 .duplicate-notice p { margin-bottom: 12px; font-size: .82rem; }
 .duplicate-notice .button { min-height: 38px; }
@@ -177,7 +169,7 @@ blockquote { margin: 18px 0 24px; font-family: 'Cormorant Garamond', serif; font
 .form-success h3 { margin: 7px 0 0; font-size: 2.3rem; }
 .form-success p { max-width: 340px; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
 .success-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: #ece3d9; color: var(--brown); }
-.submit-button { margin-top: 5px; }
+.submit-button { width: 100%; margin-top: 0; border-radius: 5px; background: #b58f52; }
 footer { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 65px 24px; text-align: center; }
 .footer-monogram { display: block; width: 82px; height: 82px; object-fit: contain; margin-bottom: 8px; }
 footer p { color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
@@ -342,6 +334,10 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .attire-note { margin-top: 34px; }
   .gallery-card { padding: 45px 28px; }
   .rsvp-side, .rsvp-form { padding: 48px 25px; }
+  .rsvp-form { padding: 30px 24px 20px; }
+  .rsvp-intro { margin-bottom: 34px; }
+  .rsvp-intro h2 { margin: 28px 0 22px; font-size: clamp(2.7rem, 11vw, 4.7rem); }
+  .rsvp-intro p { font-size: 1.05rem; }
   .choice-row { flex-direction: column; }
   .save-bar { align-items: flex-start; flex-direction: column; }
   .two-col { grid-template-columns: 1fr; }

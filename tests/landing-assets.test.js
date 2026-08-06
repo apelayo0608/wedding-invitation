@@ -13,6 +13,7 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.equal(monogram[25], 6);
   assert.match(source, /import monogramImage from ['"]\.\/assets\/monogram\.png['"]/);
   assert.match(source, /className="welcome-monogram"/);
+  assert.match(welcomeCard, /className="welcome-monogram"/);
   assert.match(source, /alt="Kathreen and Lawrence monogram"/);
   assert.match(source, /className={`welcome-envelope \$\{opening \? 'is-opening' : ''\}`}/);
   assert.match(source, /className="envelope-flap"/);
@@ -23,8 +24,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /In his light, we found each other\./);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
-  assert.match(styles, /width: min\(310px, calc\(100% - 32px\)\)/);
-  assert.match(styles, /\.welcome-monogram \{ position: absolute;[^}]*top: -58px;[^}]*left: 50%/);
+  assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
+  assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);
+  assert.match(styles, /min-height: 310px/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.envelope-flap/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.welcome-card/);
   assert.match(styles, /\.envelope-flap \{ position: absolute; z-index: 2;/);

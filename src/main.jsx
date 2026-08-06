@@ -55,9 +55,9 @@ function OpenInvitation({ onOpen, event, opening }) {
   return <motion.div className={`welcome-screen ${opening ? 'is-opening' : ''}`} initial={{ opacity: 1 }} exit={{ opacity: 0, scale: reduce ? 1 : 1.04 }} transition={{ duration: reduce ? 0 : 0.6 }}>
     <div className="welcome-photo" />
     <div className={`welcome-envelope ${opening ? 'is-opening' : ''}`}>
-      <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
       <div className="welcome-envelope-body">
         <div className="welcome-card">
+          <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
           <p className="script welcome-date">{formatDate(event.couple.date)}</p>
           <p className="welcome-note">In his light, we found each other.</p>
           <button className="button button-dark" onClick={onOpen} disabled={opening} aria-busy={opening}>{opening ? 'Opening…' : <><Heart size={16} /> Open invitation</>}</button>

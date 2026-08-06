@@ -27,4 +27,5 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.welcome-monogram \{ position: absolute;[^}]*top: -58px;[^}]*left: 50%/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.envelope-flap/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.welcome-card/);
+  assert.match(styles, /\.envelope-flap \{ position: absolute; z-index: 2;/);
 });

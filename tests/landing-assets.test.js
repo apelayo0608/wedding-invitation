@@ -15,4 +15,5 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.doesNotMatch(welcomeCard, /The wedding of/);
   assert.match(source, /In his light, we found each other\./);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
+  assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
 });

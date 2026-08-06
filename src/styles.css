@@ -139,7 +139,7 @@ blockquote { margin: 18px 0 24px; font-family: 'Cormorant Garamond', serif; font
 .gift-section > svg { margin-bottom: 22px; color: #a26a4c; }
 .gift-section p { max-width: 490px; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; line-height: 1.4; }
 .gallery-section { max-width: 920px; padding-top: 40px; }
-.gallery-card { position: relative; overflow: hidden; padding: 70px; background: linear-gradient(115deg, rgba(82,32,0,.93), rgba(144,88,59,.89)), url('/theme/1.png') center / cover; color: #fff; box-shadow: var(--shadow); }
+.gallery-card { position: relative; overflow: hidden; padding: 70px; background: linear-gradient(115deg, rgba(82,32,0,.93), rgba(144,88,59,.89)), url('./assets/last-page.jpg') center bottom / cover; color: #fff; box-shadow: var(--shadow); }
 .gallery-card .eyebrow { color: #e9cdb9; }
 .gallery-card h2 { max-width: 440px; }
 .gallery-card p { max-width: 420px; color: #eeded2; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; }

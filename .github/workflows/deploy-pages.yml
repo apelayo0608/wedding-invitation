@@ -13,7 +13,9 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  # Only the newest commit needs to be published. Cancel stale runs so a
+  # hung Pages deployment cannot block the current release indefinitely.
+  cancel-in-progress: true
 
 jobs:
   build:

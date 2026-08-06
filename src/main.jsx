@@ -38,8 +38,16 @@ function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
 }
 
+function formatDateOnly(value) {
+  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
+}
+
 function formatTime(value) {
   return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Manila' }).format(new Date(value));
+}
+
+function formatTimeOfDay(value) {
+  return `${formatTime(value).replace(/\s?(AM|PM)$/, '')} in the ${formatTime(value).endsWith('PM') ? 'Afternoon' : 'Morning'}`;
 }
 
 function Countdown({ target }) {
@@ -133,7 +141,7 @@ function Invitation({ event }) {
   };
   return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In his light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
-    <Section className="intro-section"><span className="eyebrow">A day made beautiful by love</span><h2>We found our way<br /><em>to forever.</em></h2><p className="lede">Two hearts, one promise, and a lifetime of memories waiting to begin. We would be honored to have you with us as we say “I do.”</p><Countdown target={liveEvent.couple.date} /></Section>
+    <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow">Save the date</span><h2>Meet us where<br /><em>forever begins.</em></h2></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} /><VenueCard type="Wedding reception" venue={liveEvent.reception} /></div></Section>
     <Section className="quote-section"><div className="quote-mark">“</div><blockquote>Love is not just looking at each other, it’s looking in the same direction.</blockquote><span className="eyebrow">— Antoine de Saint-Exupéry</span></Section>
     <Section id="entourage" className="entourage-section"><div className="section-heading centered"><span className="eyebrow">With joyful hearts</span><h2>Our <em>entourage</em></h2><p>We are grateful for the people who have guided, loved, and supported us.</p></div><SponsorList groups={liveEvent.sponsors} /></Section>

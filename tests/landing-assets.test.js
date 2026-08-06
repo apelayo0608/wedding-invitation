@@ -31,6 +31,11 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /className="venue-schedule"/);
   assert.match(source, /className="venue-note"/);
   assert.match(source, /className="venue-qr"/);
+  assert.match(source, /parents: \{ bride:/);
+  assert.match(source, /function Entourage\(\{ event \}\)/);
+  assert.match(source, /className="parents-grid"/);
+  assert.match(source, /className="secondary-row"/);
+  assert.match(source, /className="entourage-footer-grid"/);
   assert.match(source, /className="site-nav-monogram"/);
   assert.doesNotMatch(source, /className="hero-monogram"/);
   assert.match(source, /className="hero-event-meta"/);
@@ -53,6 +58,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.details-section \{[^}]*background: var\(--white\)/);
   assert.match(styles, /\.venue-card \{[^}]*min-height: 520px/);
   assert.match(styles, /\.venue-qr \{[^}]*background: #f5eee6/);
+  assert.match(styles, /\.parents-grid, \.honor-grid \{[^}]*grid-template-columns: repeat\(2/);
+  assert.match(styles, /\.secondary-row \{[^}]*grid-template-columns: 220px 1fr/);
+  assert.match(styles, /\.entourage-footer-grid \{[^}]*grid-template-columns: repeat\(4/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);

@@ -11,6 +11,7 @@ import './styles.css';
 
 const FALLBACK_EVENT = {
   couple: { bride: 'Kathreen', groom: 'Lawrence', date: '2026-10-23T13:30:00+08:00', timezone: 'Asia/Manila' },
+  parents: { bride: ['Mrs. Zenaida P. Dela Cruz', 'Mr. Romeo V. Dela Cruz'], groom: ['Mrs. Regina B. Olvena', 'Mr. Rommel V. Bansil'] },
   rsvpDeadline: '2026-09-30T23:59:59+08:00',
   maxCompanions: 5,
   ceremony: { name: 'Parroquia Del Espiritu Santo', address: 'San Luis, Tarlac City', mapsUrl: 'https://maps.app.goo.gl/NsMSXusnMtRDSasY9', embedUrl: '' },
@@ -24,7 +25,7 @@ const FALLBACK_EVENT = {
     { title: 'Principal Sponsors', names: ['Mr. Danilo S. Hermogenes', 'Mr. Gerardo S. Domingo', 'Mr. Arnel S. Vitug', 'Mr. Celedonio S. Roberto', 'Mr. Lauro A.D. Puno', 'Mr. Gerardo Navarro', 'Mr. Jose V. Bautista', 'Mr. Hilario C. Olveña II', 'Mrs. Edna E. Angeles', 'Mrs. Jocelyn S. Caraang', 'Mrs. Marissa M. David', 'Mrs. Melissa D.C. Abad', 'Mrs. Myrna J.D.C. Puno', 'Mrs. Roselyn V. Navarro', 'Mrs. Sheryl B. Martin', 'Mrs. Annchiche-Lyn M. Olveña'] },
     { title: 'Matron of Honor', names: ['Remy Joy B. Bumanlag'] },
     { title: 'Best Man', names: ['Jan Nikko Montemayor'] },
-    { title: 'Secondary Sponsors', names: ['Jasmin B. Monsalve', 'Ma. Angela C. Ocampo', 'Lloyd Arsid S.D. Gayla', 'Jacob Freud N. Salonga', 'Lorenza Genevieve B. Olveña', 'Shara Marie D.R. Baun', 'Mark Daryl B. Bustos', 'Carl Eugene D.C. Bansil', 'Donnita Anne D.C. Roberto', 'Marielle R. Sanqui', 'Nico', 'Eugene Dave B. Singque'] },
+    { title: 'Secondary Sponsors', names: ['Jasmin B. Monsalve', 'Ma. Angela C. Ocampo', 'Lloyd Arsid S.D. Gayla', 'Jacob Freud N. Salonga', 'Lorenza Genevieve B. Olveña', 'Shara Marie D.R. Baun', 'Eugene Dave B. Singque', 'Carl Eugene D.C. Bansil', 'Donnita Anne D.C. Roberto', 'Marielle R. Sanqui', 'Mark Daryl B. Bustos', 'Gerard Leo B. Navarro'] },
     { title: 'Ring Bearer', names: ['Jakiro Rennzel D.L. Dela Cruz'] },
     { title: 'Bible Bearer', names: ['Marion Jared R. Dung'] },
     { title: 'Coin Bearer', names: ['Lecyan Juan B. Florano'] },
@@ -99,8 +100,23 @@ function VenueCard({ venue, type, event }) {
   </article>;
 }
 
-function SponsorList({ groups }) {
-  return <div className="sponsor-grid">{groups.map((group) => <div className="sponsor-group" key={group.title}><h3>{group.title}</h3><div className="sponsor-names">{group.names.map((name) => <span key={name}>{name}</span>)}</div></div>)}</div>;
+function SponsorGroup({ title, names, className = '' }) {
+  return <div className={`sponsor-group ${className}`}><h3>{title}</h3><div className="sponsor-names">{(names || []).map((name) => <span key={name}>{name}</span>)}</div></div>;
+}
+
+function Entourage({ event }) {
+  const groups = event.sponsors || [];
+  const group = (title) => groups.find((item) => item.title === title) || { title, names: [] };
+  const secondary = group('Secondary Sponsors').names;
+  const secondaryRows = [
+    { title: 'To Light Our Path', names: secondary.slice(0, 4) },
+    { title: 'To Clothe Us as One', names: secondary.slice(4, 8) },
+    { title: 'To Bind Us Together', names: secondary.slice(8, 12) },
+  ];
+  return <>
+    <Section id="entourage" className="entourage-section entourage-page-one"><div className="entourage-page"><div className="section-heading centered"><span className="eyebrow">The entourage</span></div><div className="parents-grid"><SponsorGroup title="Parents of the bride" names={event.parents?.bride} /><SponsorGroup title="Parents of the groom" names={event.parents?.groom} /></div><SponsorGroup title="Principal Sponsors" names={group('Principal Sponsors').names} className="principal-group" /></div></Section>
+    <Section className="entourage-section entourage-page-two"><div className="entourage-page"><div className="section-heading centered"><span className="eyebrow">The entourage</span></div><div className="honor-grid"><SponsorGroup title="Matron of Honor" names={group('Matron of Honor').names} /><SponsorGroup title="Best Man" names={group('Best Man').names} /></div><div className="secondary-sponsors"><h3>Secondary Sponsors</h3>{secondaryRows.map((row) => <div className="secondary-row" key={row.title}><h4>{row.title}</h4><div className="secondary-names">{row.names.map((name) => <span key={name}>{name}</span>)}</div></div>)}</div><div className="entourage-footer-grid"><SponsorGroup title="Ring Bearer" names={group('Ring Bearer').names} /><SponsorGroup title="Bible Bearer" names={group('Bible Bearer').names} /><SponsorGroup title="Coin Bearer" names={group('Coin Bearer').names} /><SponsorGroup title="Flower Girls" names={group('Flower Girls').names} /></div></div></Section>
+  </>;
 }
 
 function RsvpForm({ event }) {
@@ -148,7 +164,7 @@ function Invitation({ event }) {
     <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow">The details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
     <Section className="quote-section"><div className="quote-mark">“</div><blockquote>Love is not just looking at each other, it’s looking in the same direction.</blockquote><span className="eyebrow">— Antoine de Saint-Exupéry</span></Section>
-    <Section id="entourage" className="entourage-section"><div className="section-heading centered"><span className="eyebrow">With joyful hearts</span><h2>Our <em>entourage</em></h2><p>We are grateful for the people who have guided, loved, and supported us.</p></div><SponsorList groups={liveEvent.sponsors} /></Section>
+    <Entourage event={liveEvent} />
     <Section className="attire-section"><div className="attire-copy"><span className="eyebrow">Guests are kindly encouraged</span><h2>Dress in <em>earth tones.</em></h2><p>{liveEvent.attire}</p><div className="swatches"><span style={{ background: '#522000' }} /><span style={{ background: '#463932' }} /><span style={{ background: '#965c41' }} /><span style={{ background: '#c5b59e' }} /><span style={{ background: '#71462f' }} /></div></div><div className="attire-photo" /></Section>
     <Section className="gift-section"><Gift size={26} /><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{liveEvent.giftNote}</p></Section>
     <Section className="gallery-section"><div className="gallery-card"><div className="gallery-icon"><Heart size={22} /></div><span className="eyebrow">Wedding memories</span><h2>Let’s relive<br /><em>the happy moments.</em></h2><p>We’ll share the photographs from our special day here.</p>{liveEvent.galleryPublished && liveEvent.galleryUrl ? <a className="button button-dark" href={liveEvent.galleryUrl} target="_blank" rel="noreferrer">View wedding photos <ExternalLink size={16} /></a> : <span className="coming-soon">Photos coming soon</span>}</div></Section>

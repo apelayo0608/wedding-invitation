@@ -24,10 +24,9 @@ em { font-style: italic; font-weight: 400; }
 .button-outline { color: var(--brown); border: 1px solid var(--brown); background: transparent; }
 .arrow-up { transform: rotate(-90deg); }
 .welcome-screen { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--paper); }
-.welcome-photo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(248,242,235,.9) 0%, rgba(248,242,235,.32) 52%, rgba(248,242,235,.14)), url('/theme/1.png') 50% 12% / cover; filter: saturate(.8); }
+.welcome-photo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(248,242,235,.9) 0%, rgba(248,242,235,.32) 52%, rgba(248,242,235,.14)), url('./assets/landing-page.jpg') 50% 12% / cover; filter: saturate(.8); }
 .welcome-card { position: relative; width: min(540px, calc(100% - 42px)); padding: clamp(34px, 7vw, 72px); text-align: center; background: rgba(255,253,249,.9); box-shadow: var(--shadow); backdrop-filter: blur(8px); }
-.welcome-card h1 { font-size: clamp(3.8rem, 7vw, 6.5rem); margin: 24px 0 12px; }
-.welcome-card h1 em { display: block; font-family: 'Great Vibes', cursive; font-size: .56em; line-height: .6; }
+.welcome-monogram { display: block; width: min(330px, 100%); height: auto; margin: 0 auto 18px; }
 .welcome-date { color: var(--brown); font-size: 2.1rem; margin-bottom: 14px; }
 .welcome-note { color: var(--muted); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; margin-bottom: 34px; }
 .site-nav { position: fixed; z-index: 10; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; min-height: 74px; padding: 0 42px; color: var(--brown); background: rgba(248,242,235,.84); backdrop-filter: blur(10px); }
@@ -242,7 +241,7 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .section { width: min(100% - 32px, 520px); padding: 68px 0; }
   h2 { font-size: 3.3rem; }
   .welcome-card { padding: 38px 24px; }
-  .welcome-card h1 { font-size: 4.1rem; }
+  .welcome-monogram { width: min(300px, 100%); }
   .welcome-photo { background-position: 53% 14%; }
   .music-control span { display: none; }
   .hero-image { min-height: 52vh; }

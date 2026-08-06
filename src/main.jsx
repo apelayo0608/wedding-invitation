@@ -6,7 +6,7 @@ import { adminLogin, changeAdminPassword, deleteAdminRsvp, exportAdminRsvps, get
 import { normalizeContact, validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
 import { playMusicThenOpen, startInvitationMusic } from './lib/music.js';
-import monogramImage from './assets/monogram-transparent.png';
+import monogramImage from './assets/monogram.png';
 import './styles.css';
 
 const FALLBACK_EVENT = {

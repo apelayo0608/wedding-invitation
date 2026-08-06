@@ -28,4 +28,6 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.welcome-envelope\.is-opening \.envelope-flap/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.welcome-card/);
   assert.match(styles, /\.envelope-flap \{ position: absolute; z-index: 2;/);
+  assert.match(styles, /\.welcome-envelope-body \{[^}]*background: rgba\(245, 236, 228, \.78\)/);
+  assert.match(styles, /\.envelope-flap \{[^}]*background: rgba\(248, 240, 233, \.7\)/);
 });

@@ -9,6 +9,7 @@ test('uses the Kath landing assets on the welcome screen', () => {
   const welcomeCard = source.match(/<div className="welcome-card">([\s\S]*?)<\/div>/)?.[1] || '';
 
   assert.equal(existsSync(new URL('../src/assets/landing-page.jpg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../src/assets/first-page.jpg', import.meta.url)), true);
   assert.equal(existsSync(new URL('../src/assets/monogram.png', import.meta.url)), true);
   assert.equal(monogram[25], 6);
   assert.match(source, /import monogramImage from ['"]\.\/assets\/monogram\.png['"]/);
@@ -22,7 +23,14 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /setOpened\(true\), reduce \? 0 : ENVELOPE_OPEN_DURATION/);
   assert.doesNotMatch(welcomeCard, /The wedding of/);
   assert.match(source, /In his light, we found each other\./);
+  assert.match(source, /className="site-nav-monogram"/);
+  assert.match(source, /className="hero-monogram"/);
+  assert.match(source, /className="hero-event-meta"/);
+  assert.match(source, /className="hero-venue"/);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
+  assert.match(styles, /url\(['"]\.\/assets\/first-page\.jpg['"]\)/);
+  assert.match(styles, /\.hero::before \{[^}]*backdrop-filter: blur/);
+  assert.match(styles, /\.hero \{[^}]*place-items: center/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);

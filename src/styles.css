@@ -111,6 +111,21 @@ blockquote { margin: 18px 0 24px; font-family: 'Cormorant Garamond', serif; font
 .secondary-names { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 32px; color: #2f211a; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
 .entourage-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 58px; }
 .entourage-footer-grid .sponsor-group { text-align: center; }
+.parents-grid, .honor-grid { width: min(500px, 100%); margin-right: auto; margin-left: auto; gap: 56px; }
+.honor-grid .sponsor-group h3 { text-align: left; }
+.principal-group { width: min(500px, 100%); }
+.secondary-sponsors { width: min(1000px, 100%); margin-right: auto; margin-left: auto; }
+.secondary-row { grid-template-columns: 1fr; gap: 12px; }
+.secondary-names { grid-template-columns: repeat(2, minmax(0, 1fr)) 150px repeat(2, minmax(0, 1fr)); column-gap: 24px; text-align: center; }
+.secondary-names span:nth-child(3) { grid-column: 4; }
+.secondary-names span:nth-child(4) { grid-column: 5; }
+.entourage-footer-grid { width: min(1040px, 100%); margin-right: auto; margin-left: auto; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.entourage-footer-grid > .sponsor-group:first-child { grid-column: 1; }
+.entourage-footer-pair { grid-column: 2; text-align: center; }
+.entourage-footer-pair h3 { margin: 0 0 18px; color: #b1844b; font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.footer-pair-names { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; color: #2f211a; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; line-height: 1.1; }
+.footer-pair-divider { color: var(--muted); }
+.entourage-footer-grid > .sponsor-group:last-child { grid-column: 3; }
 .attire-section { display: flex; flex-direction: column; align-items: center; max-width: 1280px; padding: 100px 5% 110px; background: var(--white); text-align: center; }
 .attire-section > .eyebrow { color: #b1844b; }
 .attire-heading { margin: 38px 0 35px; color: #2f211a; font-family: 'Bookman Old Style', 'Bookman', Georgia, serif; font-size: clamp(3rem, 5vw, 4.6rem); font-weight: 700; }
@@ -313,7 +328,10 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .principal-group .sponsor-names { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; column-gap: 0; }
   .secondary-row { grid-template-columns: 1fr; gap: 13px; }
   .secondary-names { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+  .secondary-names span:nth-child(3), .secondary-names span:nth-child(4) { grid-column: auto; }
   .entourage-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 18px; }
+  .entourage-footer-grid > .sponsor-group:first-child, .entourage-footer-pair, .entourage-footer-grid > .sponsor-group:last-child { grid-column: auto; }
+  .entourage-footer-pair { grid-column: 1 / -1; }
   .attire-section { padding: 76px 16px 84px; }
   .attire-heading { margin: 28px 0 25px; font-size: clamp(2.7rem, 11vw, 4.7rem); }
   .attire-description { font-size: 1.15rem; line-height: 1.35; }

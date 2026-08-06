@@ -25,17 +25,18 @@ em { font-style: italic; font-weight: 400; }
 .arrow-up { transform: rotate(-90deg); }
 .welcome-screen { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--paper); }
 .welcome-photo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(248,242,235,.9) 0%, rgba(248,242,235,.32) 52%, rgba(248,242,235,.14)), url('./assets/landing-page.jpg') 0% 16% / 130% auto no-repeat; background-color: #dfd3c6; filter: saturate(.8); }
-.welcome-envelope { position: relative; width: min(360px, calc(100% - 32px)); min-height: 430px; perspective: 1100px; filter: drop-shadow(0 22px 30px rgba(50, 28, 15, .2)); }
+.welcome-envelope { position: relative; width: min(310px, calc(100% - 32px)); min-height: 350px; margin-top: 52px; perspective: 1100px; filter: drop-shadow(0 22px 30px rgba(50, 28, 15, .2)); }
 .welcome-envelope-body { position: absolute; inset: 0; overflow: hidden; background: #f5ece4; border: 1px solid rgba(82, 32, 0, .16); }
 .welcome-envelope-body::before { content: ''; position: absolute; z-index: 1; inset: auto 0 0; height: 42%; background: #eee1d6; clip-path: polygon(0 100%, 50% 0, 100% 100%); }
 .welcome-envelope-body::after { content: ''; position: absolute; z-index: 1; inset: 0; border: 1px solid rgba(82, 32, 0, .08); clip-path: polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%); pointer-events: none; }
-.welcome-card { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 430px; padding: 60px 24px 26px; text-align: center; background: transparent; }
-.welcome-monogram { display: block; width: min(220px, 100%); height: auto; margin: 0 auto 8px; }
-.welcome-date { color: var(--brown); font-size: 1.72rem; margin-bottom: 10px; }
-.welcome-note { color: var(--muted); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; margin-bottom: 22px; }
+.welcome-card { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 350px; padding: 34px 18px 20px; text-align: center; background: transparent; }
+.welcome-monogram { position: absolute; z-index: 6; top: -58px; left: 50%; display: block; width: min(150px, 48%); height: auto; margin: 0; transform: translateX(-50%); }
+.welcome-date { color: var(--brown); font-size: 1.48rem; margin-bottom: 8px; }
+.welcome-note { color: var(--muted); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .9rem; margin-bottom: 18px; }
 .envelope-flap { position: absolute; z-index: 4; top: 0; left: 0; width: 100%; height: 44%; background: #f8f0e9; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; transform-style: preserve-3d; backface-visibility: hidden; transition: transform .85s cubic-bezier(.2, .75, .25, 1), z-index 0s .42s; }
 .envelope-front { position: absolute; z-index: 5; right: 0; bottom: 0; left: 0; height: 1px; background: rgba(82, 32, 0, .14); pointer-events: none; }
-.welcome-envelope.is-opening .welcome-card { opacity: .2; transform: translateY(-68px) scale(.98); transition: opacity .7s ease, transform .85s cubic-bezier(.2, .75, .25, 1); }
+.welcome-envelope.is-opening .welcome-card { opacity: .2; transform: translateY(-55px) scale(.98); transition: opacity .7s ease, transform .85s cubic-bezier(.2, .75, .25, 1); }
+.welcome-envelope.is-opening .welcome-monogram { opacity: .2; transform: translate(-50%, -55px) scale(.98); transition: opacity .7s ease, transform .85s cubic-bezier(.2, .75, .25, 1); }
 .welcome-envelope.is-opening .envelope-flap { z-index: 2; transform: rotateX(-180deg); }
 .site-nav { position: fixed; z-index: 10; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; min-height: 74px; padding: 0 42px; color: var(--brown); background: rgba(248,242,235,.84); backdrop-filter: blur(10px); }
 .brand { font-family: 'Cormorant Garamond', serif; font-size: 2rem; letter-spacing: -.12em; }
@@ -248,9 +249,9 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
 @media (max-width: 580px) {
   .section { width: min(100% - 32px, 520px); padding: 68px 0; }
   h2 { font-size: 3.3rem; }
-  .welcome-envelope { width: min(330px, calc(100% - 28px)); min-height: 400px; }
-  .welcome-card { min-height: 400px; padding: 54px 20px 22px; }
-  .welcome-monogram { width: min(200px, 100%); }
+  .welcome-envelope { width: min(290px, calc(100% - 28px)); min-height: 330px; margin-top: 44px; }
+  .welcome-card { min-height: 330px; padding: 28px 16px 18px; }
+  .welcome-monogram { top: -48px; width: min(128px, 48%); }
   .welcome-photo { background-position: 50% 14%; background-size: cover; }
   .music-control span { display: none; }
   .hero-image { min-height: 52vh; }

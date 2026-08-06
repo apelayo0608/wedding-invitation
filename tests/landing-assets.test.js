@@ -23,7 +23,8 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /In his light, we found each other\./);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
-  assert.match(styles, /width: min\(360px, calc\(100% - 32px\)\)/);
+  assert.match(styles, /width: min\(310px, calc\(100% - 32px\)\)/);
+  assert.match(styles, /\.welcome-monogram \{ position: absolute;[^}]*top: -58px;[^}]*left: 50%/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.envelope-flap/);
   assert.match(styles, /\.welcome-envelope\.is-opening \.welcome-card/);
 });

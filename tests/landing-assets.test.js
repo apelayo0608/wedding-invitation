@@ -27,6 +27,10 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /className="date-subtitle"/);
   assert.match(source, /formatDateOnly\(liveEvent\.couple\.date\)/);
   assert.match(source, /formatTimeOfDay\(liveEvent\.couple\.date\)/);
+  assert.match(source, /The details/);
+  assert.match(source, /className="venue-schedule"/);
+  assert.match(source, /className="venue-note"/);
+  assert.match(source, /className="venue-qr"/);
   assert.match(source, /className="site-nav-monogram"/);
   assert.doesNotMatch(source, /className="hero-monogram"/);
   assert.match(source, /className="hero-event-meta"/);
@@ -46,6 +50,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.date-heading \{[^}]*font-size: clamp\(3\.2rem, 6vw, 5\.7rem\)/);
   assert.match(styles, /\.countdown \{[^}]*grid-template-columns: repeat\(4/);
   assert.match(styles, /\.countdown-item \{[^}]*border: 1px solid #dfd5ca/);
+  assert.match(styles, /\.details-section \{[^}]*background: var\(--white\)/);
+  assert.match(styles, /\.venue-card \{[^}]*min-height: 520px/);
+  assert.match(styles, /\.venue-qr \{[^}]*background: #f5eee6/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);

@@ -14,8 +14,16 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /import monogramImage from ['"]\.\/assets\/monogram\.png['"]/);
   assert.match(source, /className="welcome-monogram"/);
   assert.match(source, /alt="Kathreen and Lawrence monogram"/);
+  assert.match(source, /className={`welcome-envelope \$\{opening \? 'is-opening' : ''\}`}/);
+  assert.match(source, /className="envelope-flap"/);
+  assert.match(source, /disabled=\{opening\}/);
+  assert.match(source, /startInvitationMusic\(musicRef\.current\)/);
+  assert.match(source, /setOpened\(true\), reduce \? 0 : ENVELOPE_OPEN_DURATION/);
   assert.doesNotMatch(welcomeCard, /The wedding of/);
   assert.match(source, /In his light, we found each other\./);
   assert.match(styles, /url\(['"]\.\/assets\/landing-page\.jpg['"]\)/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
+  assert.match(styles, /width: min\(360px, calc\(100% - 32px\)\)/);
+  assert.match(styles, /\.welcome-envelope\.is-opening \.envelope-flap/);
+  assert.match(styles, /\.welcome-envelope\.is-opening \.welcome-card/);
 });

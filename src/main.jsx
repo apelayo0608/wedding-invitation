@@ -5,7 +5,7 @@ import { ArrowDown, CalendarDays, Check, ChevronDown, ExternalLink, Gift, Heart,
 import { adminLogin, changeAdminPassword, deleteAdminRsvp, exportAdminRsvps, getAdminRsvps, getAdminSession, getPublicEvent, saveAdminEvent, saveAdminSponsors, submitRsvp, uploadAdminFile, validatePasswordChange } from './api.js';
 import { normalizeContact, validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
-import { playMusicThenOpen, startInvitationMusic } from './lib/music.js';
+import { startInvitationMusic } from './lib/music.js';
 import monogramImage from './assets/monogram.png';
 import './styles.css';
 
@@ -32,6 +32,8 @@ const FALLBACK_EVENT = {
   ],
 };
 
+const ENVELOPE_OPEN_DURATION = 1050;
+
 function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
 }
@@ -48,14 +50,21 @@ function Section({ children, className = '', delay = 0, ...sectionProps }) {
   return <motion.section {...sectionProps} className={`section ${className}`} initial={reduce ? false : { opacity: 0, y: 24 }} whileInView={reduce ? {} : { opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7, delay }}>{children}</motion.section>;
 }
 
-function OpenInvitation({ onOpen, event }) {
-  return <motion.div className="welcome-screen" initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.04 }} transition={{ duration: 0.6 }}>
+function OpenInvitation({ onOpen, event, opening }) {
+  const reduce = useReducedMotion();
+  return <motion.div className={`welcome-screen ${opening ? 'is-opening' : ''}`} initial={{ opacity: 1 }} exit={{ opacity: 0, scale: reduce ? 1 : 1.04 }} transition={{ duration: reduce ? 0 : 0.6 }}>
     <div className="welcome-photo" />
-    <div className="welcome-card">
-      <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
-      <p className="script welcome-date">{formatDate(event.couple.date)}</p>
-      <p className="welcome-note">In his light, we found each other.</p>
-      <button className="button button-dark" onClick={onOpen}><Heart size={16} /> Open invitation</button>
+    <div className={`welcome-envelope ${opening ? 'is-opening' : ''}`}>
+      <div className="welcome-envelope-body">
+        <div className="welcome-card">
+          <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
+          <p className="script welcome-date">{formatDate(event.couple.date)}</p>
+          <p className="welcome-note">In his light, we found each other.</p>
+          <button className="button button-dark" onClick={onOpen} disabled={opening} aria-busy={opening}>{opening ? 'Opening…' : <><Heart size={16} /> Open invitation</>}</button>
+        </div>
+      </div>
+      <div className="envelope-flap" aria-hidden="true" />
+      <div className="envelope-front" aria-hidden="true" />
     </div>
   </motion.div>;
 }
@@ -110,8 +119,15 @@ function Invitation({ event }) {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const musicRef = React.useRef(null);
   useEffect(() => { getPublicEvent().then((data) => { if (data) setLiveEvent((current) => ({ ...current, ...data })); }); }, []);
-  const openInvitation = () => { playMusicThenOpen(musicRef.current, () => setOpened(true)).then(setMusicPlaying); };
-  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand">K<span>&</span>L</a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
+  const [opening, setOpening] = useState(false);
+  const reduce = useReducedMotion();
+  const openInvitation = () => {
+    if (opening) return;
+    setOpening(true);
+    startInvitationMusic(musicRef.current).then(setMusicPlaying);
+    window.setTimeout(() => setOpened(true), reduce ? 0 : ENVELOPE_OPEN_DURATION);
+  };
+  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand">K<span>&</span>L</a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><p className="script">{formatDate(liveEvent.couple.date)}</p><div className="hero-rule" /><p>For His light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">A day made beautiful by love</span><h2>We found our way<br /><em>to forever.</em></h2><p className="lede">Two hearts, one promise, and a lifetime of memories waiting to begin. We would be honored to have you with us as we say “I do.”</p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow">Save the date</span><h2>Meet us where<br /><em>forever begins.</em></h2></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} /><VenueCard type="Wedding reception" venue={liveEvent.reception} /></div></Section>

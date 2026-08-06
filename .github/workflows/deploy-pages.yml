@@ -12,9 +12,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  # Only the newest commit needs to be published. Cancel stale runs so a
-  # hung Pages deployment cannot block the current release indefinitely.
+  # Use a fresh group to unblock runs created under the old serialized queue.
+  group: pages-v2
+  # Only the newest commit needs to be published.
   cancel-in-progress: true
 
 jobs:

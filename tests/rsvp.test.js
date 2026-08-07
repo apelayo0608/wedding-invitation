@@ -10,6 +10,7 @@ test('normalizes a Philippine mobile number to digits with country code', () => 
 test('accepts a numeric guest count when attending', () => {
   const result = validateRsvp({
     guestName: 'Maria Santos',
+    contactNumber: '0917 123 4567',
     attendance: 'attending',
     companionCount: '2',
   }, { maxCompanions: 5, deadline: '2026-09-30T23:59:59+08:00', now: '2026-08-01T00:00:00+08:00' });
@@ -22,6 +23,7 @@ test('accepts a numeric guest count when attending', () => {
 test('rejects submissions after the RSVP deadline', () => {
   const result = validateRsvp({
     guestName: 'Maria Santos',
+    contactNumber: '0917 123 4567',
     attendance: 'declined',
     companionCount: '',
   }, { maxCompanions: 5, deadline: '2026-09-30T23:59:59+08:00', now: '2026-10-01T00:00:00+08:00' });
@@ -33,10 +35,23 @@ test('rejects submissions after the RSVP deadline', () => {
 test('rejects more guests than the configured limit', () => {
   const result = validateRsvp({
     guestName: 'Maria Santos',
+    contactNumber: '0917 123 4567',
     attendance: 'attending',
     companionCount: 3,
   }, { maxCompanions: 2, deadline: '2026-09-30T23:59:59+08:00', now: '2026-08-01T00:00:00+08:00' });
 
   assert.equal(result.valid, false);
   assert.equal(result.errors.companionCount, 'You can include up to 2 guests.');
+});
+
+test('requires a contact number for the RSVP API', () => {
+  const result = validateRsvp({
+    guestName: 'Maria Santos',
+    contactNumber: '',
+    attendance: 'declined',
+    companionCount: '',
+  }, { maxCompanions: 5, deadline: '2026-09-30T23:59:59+08:00', now: '2026-08-01T00:00:00+08:00' });
+
+  assert.equal(result.valid, false);
+  assert.equal(result.errors.contactNumber, 'Please enter a valid contact number.');
 });

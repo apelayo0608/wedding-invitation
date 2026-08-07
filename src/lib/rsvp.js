@@ -17,6 +17,7 @@ export function validateRsvp(input, options = {}) {
   const companionCount = rawCompanionCount === '' ? 0 : Number(rawCompanionCount);
 
   if (guestName.length < 2) errors.guestName = 'Please enter your name.';
+  if (contact.length < 10 || contact.length > 15) errors.contactNumber = 'Please enter a valid contact number.';
   if (!['attending', 'declined'].includes(attendance)) errors.attendance = 'Please confirm your attendance.';
   if (deadline && !Number.isNaN(deadline.valueOf()) && now > deadline) errors.form = 'RSVP submissions are closed.';
 

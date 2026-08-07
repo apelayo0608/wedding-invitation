@@ -132,7 +132,7 @@ function Entourage({ event }) {
 }
 
 function RsvpForm({ event }) {
-  const [form, setForm] = useState({ guestName: '', attendance: '', companionCount: '' });
+  const [form, setForm] = useState({ guestName: '', contactNumber: '', attendance: '', companionCount: '' });
   const [errors, setErrors] = useState({});
   const [state, setState] = useState('idle');
   const [duplicate, setDuplicate] = useState(false);
@@ -141,15 +141,16 @@ function RsvpForm({ event }) {
     const result = validateRsvp(form, { maxCompanions: event.maxCompanions, deadline: event.rsvpDeadline });
     if (!result.valid) { setErrors(result.errors); return; }
     setErrors({}); setState('loading');
-    try { await submitRsvp(result.data, replace); setState('success'); setDuplicate(false); } catch (error) { if (error.code === 'RSVP_EXISTS' && !replace) { setDuplicate(true); setState('idle'); } else { setErrors({ form: error.message }); setState('idle'); } }
+    try { await submitRsvp(result.data, replace); setState('success'); setDuplicate(false); } catch (error) { if (error.code === 'RSVP_EXISTS' && !replace) { setDuplicate(true); setState('idle'); } else { setErrors({ ...(error.fields || {}), form: error.message }); setState('idle'); } }
   };
-  if (state === 'success') return <div className="form-success"><div className="success-icon"><Check /></div><h3>Thank you, {form.guestName}.</h3><p>Your RSVP has been saved. We can’t wait to celebrate with you.</p><button className="button button-outline" onClick={() => { setForm({ guestName: '', attendance: '', companionCount: '' }); setState('idle'); }}>Submit another response</button></div>;
+  if (state === 'success') return <div className="form-success"><div className="success-icon"><Check /></div><h3>Thank you, {form.guestName}.</h3><p>Your RSVP has been saved. We can’t wait to celebrate with you.</p><button className="button button-outline" onClick={() => { setForm({ guestName: '', contactNumber: '', attendance: '', companionCount: '' }); setState('idle'); }}>Submit another response</button></div>;
   return <form className="rsvp-form" onSubmit={(e) => { e.preventDefault(); submit(false); }} noValidate>
     {errors.form && <p className="form-error">{errors.form}</p>}
     <label>Full Name<input value={form.guestName} onChange={(e) => update('guestName', e.target.value)} placeholder="Your full name" autoComplete="name" />{errors.guestName && <small>{errors.guestName}</small>}</label>
+    <label>Contact Number<input type="tel" value={form.contactNumber} onChange={(e) => update('contactNumber', e.target.value)} placeholder="09XX XXX XXXX" autoComplete="tel" inputMode="tel" />{errors.contactNumber && <small>{errors.contactNumber}</small>}</label>
     <fieldset><legend>Will you be attending?</legend><div className="choice-row"><label className="choice"><input type="radio" name="attendance" checked={form.attendance === 'attending'} onChange={() => update('attendance', 'attending')} /> <span>Joyfully Accept</span></label><label className="choice"><input type="radio" name="attendance" checked={form.attendance === 'declined'} onChange={() => { update('attendance', 'declined'); update('companionCount', ''); }} /> <span>Regretfully Decline</span></label></div>{errors.attendance && <small>{errors.attendance}</small>}</fieldset>
     {form.attendance === 'attending' && <label>Number of Guests<input type="number" min="0" max={event.maxCompanions} value={form.companionCount} onChange={(e) => update('companionCount', e.target.value)} placeholder="0" inputMode="numeric" />{errors.companionCount && <small>{errors.companionCount}</small>}</label>}
-    {duplicate && <div className="duplicate-notice"><p>We already have an RSVP for this guest. Replace it with this response?</p><button type="button" className="button button-dark" onClick={() => submit(true)}>Update my RSVP</button></div>}
+    {duplicate && <div className="duplicate-notice"><p>We already have an RSVP for this contact number. Replace it with this response?</p><button type="button" className="button button-dark" onClick={() => submit(true)}>Update my RSVP</button></div>}
     <button className="button button-dark submit-button" type="submit" disabled={state === 'loading'}>{state === 'loading' ? 'Submitting…' : 'Submit RSVP'}</button>
   </form>;
 }

@@ -59,7 +59,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.site-nav nav \{[^}]*font-size: \.82rem/);
   assert.match(styles, /\.footer-monogram \{[^}]*width: 82px/);
   assert.match(styles, /\.site-nav \{[^}]*background: rgba\(45,33,26,\.96\)/);
-  assert.match(styles, /\.site-nav nav a:hover, \.site-nav nav a\[href="#motif"\] \{[^}]*color: #d5aa6b/);
+  assert.match(styles, /\.site-nav nav a \{[^}]*color: #f3e4d6/);
+  assert.match(styles, /\.site-nav nav a:hover \{[^}]*color: #d5aa6b/);
+  assert.doesNotMatch(styles, /\.site-nav nav a\[href="#motif"\]/);
   assert.match(styles, /\.intro-section \{[^}]*background: var\(--white\)/);
   assert.match(styles, /\.date-heading \{[^}]*font-size: clamp\(3\.2rem, 6vw, 5\.7rem\)/);
   assert.match(styles, /\.countdown \{[^}]*grid-template-columns: repeat\(4/);
@@ -73,6 +75,12 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.attire-section \{[^}]*background: var\(--white\)/);
   assert.match(styles, /\.attire-illustration \{[^}]*background: #f5eee6/);
   assert.match(styles, /\.swatches span \{[^}]*width: 94px/);
+  assert.match(source, /className="rsvp-success-mark"/);
+  assert.match(source, /className="rsvp-success-mark"[^>]*><img src=\{monogramImage\}/);
+  assert.match(source, /<h3>Thank You<\/h3>/);
+  assert.match(styles, /\.rsvp-section \{[^}]*width: 100%[^}]*background: #2d211a/);
+  assert.match(styles, /\.rsvp-intro h2 \{[^}]*color: #c29a5b/);
+  assert.match(styles, /\.rsvp-success-mark \{[^}]*border: 2px solid #b99151/);
   assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);

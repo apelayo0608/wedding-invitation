@@ -44,6 +44,10 @@ function formatDateOnly(value) {
   return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
 }
 
+function firstName(value) {
+  return String(value || '').trim().split(/\s+/)[0] || '';
+}
+
 function formatTime(value) {
   return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Manila' }).format(new Date(value));
 }
@@ -143,7 +147,17 @@ function RsvpForm({ event }) {
     setErrors({}); setState('loading');
     try { await submitRsvp(result.data, replace); setState('success'); setDuplicate(false); } catch (error) { if (error.code === 'RSVP_EXISTS' && !replace) { setDuplicate(true); setState('idle'); } else { setErrors({ ...(error.fields || {}), form: error.message }); setState('idle'); } }
   };
-  if (state === 'success') return <div className="form-success"><div className="success-icon"><Check /></div><h3>Thank you, {form.guestName}.</h3><p>Your RSVP has been saved. We can’t wait to celebrate with you.</p><button className="button button-outline" onClick={() => { setForm({ guestName: '', attendance: '', companionCount: '' }); setState('idle'); }}>Submit another response</button></div>;
+  if (state === 'success') {
+    const bride = firstName(event.couple?.bride) || 'Kathreen';
+    const groom = firstName(event.couple?.groom) || 'Lawrence';
+    return <div className="rsvp-success" role="status">
+      <div className="rsvp-success-mark" aria-hidden="true"><img src={monogramImage} alt="" /></div>
+      <h3>Thank You</h3>
+      <p>We can’t wait to celebrate this joyous occasion with you.</p>
+      <strong>{bride} &amp; {groom}</strong>
+      <span className="rsvp-success-date">{formatDateOnly(event.couple?.date)}</span>
+    </div>;
+  }
   return <form className="rsvp-form" onSubmit={(e) => { e.preventDefault(); submit(false); }} noValidate>
     {errors.form && <p className="form-error">{errors.form}</p>}
     <label>Full Name<input value={form.guestName} onChange={(e) => update('guestName', e.target.value)} placeholder="Your full name" autoComplete="name" maxLength={180} />{errors.guestName && <small>{errors.guestName}</small>}</label>

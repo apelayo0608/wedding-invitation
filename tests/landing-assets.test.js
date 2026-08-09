@@ -81,7 +81,7 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(styles, /\.rsvp-section \{[^}]*width: 100%[^}]*background: #2d211a/);
   assert.match(styles, /\.rsvp-intro h2 \{[^}]*color: #c29a5b/);
   assert.match(styles, /\.rsvp-success-mark \{[^}]*border: 2px solid #b99151/);
-  assert.match(styles, /landing-page\.jpg['"]\) 0% 16% \/ 130% auto no-repeat/);
+  assert.match(styles, /landing-page\.jpg['"]\) 50% 60% \/ cover no-repeat/);
   assert.match(styles, /width: min\(300px, calc\(100% - 32px\)\)/);
   assert.match(styles, /\.welcome-monogram \{ position: relative;[^}]*width: min\(130px, 100%\)/);
   assert.match(styles, /min-height: 310px/);

@@ -1,17 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowDown, Check, ChevronDown, ExternalLink, Gift, Heart, Music2, Pause, Play, Users, Volume2, VolumeX } from 'lucide-react';
+import { ArrowDown, Check, ChevronDown, ExternalLink, Heart, Music2, Pause, Play, Users, Volume2, VolumeX } from 'lucide-react';
 import { adminLogin, changeAdminPassword, deleteAdminRsvp, exportAdminRsvps, getAdminRsvps, getAdminSession, getPublicEvent, saveAdminEvent, saveAdminSponsors, submitRsvp, uploadAdminFile, validatePasswordChange } from './api.js';
 import { validateRsvp } from './lib/rsvp.js';
 import { isValidMapEmbedUrl } from './lib/maps.js';
 import { startInvitationMusic } from './lib/music.js';
+import churchImage from './assets/church.jpg';
+import galleryOne from './assets/gallery/gallery-1.jpg';
+import galleryTwo from './assets/gallery/gallery-2.jpg';
+import galleryThree from './assets/gallery/gallery-3.jpg';
+import galleryFour from './assets/gallery/gallery-4.jpg';
+import galleryFive from './assets/gallery/gallery-5.jpg';
+import gallerySix from './assets/gallery/gallery-6.jpg';
+import gallerySeven from './assets/gallery/gallery-7.jpg';
 import monogramImage from './assets/monogram.png';
 import peopleImage from './assets/people-transparent.png';
+import receptionImage from './assets/reception-venue.jpg';
 import './styles.css';
 
 const FALLBACK_EVENT = {
-  couple: { bride: 'Kathreen', groom: 'Lawrence', date: '2026-10-23T13:30:00+08:00', timezone: 'Asia/Manila' },
+  couple: { bride: 'Kathreen Marie', groom: 'Lawrence Gerald', date: '2026-10-23T13:30:00+08:00', timezone: 'Asia/Manila' },
   parents: { bride: ['Mrs. Zenaida P. Dela Cruz', 'Mr. Romeo V. Dela Cruz'], groom: ['Mrs. Regina B. Olvena', 'Mr. Rommel V. Bansil'] },
   rsvpDeadline: '2026-09-30T23:59:59+08:00',
   maxCompanions: 5,
@@ -23,7 +32,7 @@ const FALLBACK_EVENT = {
   galleryPublished: false,
   musicUrl: '',
   sponsors: [
-    { title: 'Principal Sponsors', names: ['Mr. Danilo S. Hermogenes', 'Mr. Gerardo S. Domingo', 'Mr. Arnel S. Vitug', 'Mr. Celedonio S. Roberto', 'Mr. Lauro A.D. Puno', 'Mr. Gerardo Navarro', 'Mr. Jose V. Bautista', 'Mr. Hilario C. Olveña II', 'Mrs. Edna E. Angeles', 'Mrs. Jocelyn S. Caraang', 'Mrs. Marissa M. David', 'Mrs. Melissa D.C. Abad', 'Mrs. Myrna J.D.C. Puno', 'Mrs. Roselyn V. Navarro', 'Mrs. Sheryl B. Martin', 'Mrs. Annchiche-Lyn M. Olveña'] },
+    { title: 'Principal Sponsors', names: ['Mr. Danilo S. Hermogenes', 'Mr. Gerardo S. Domingo', 'Mr. Arnel S. Vitug', 'Mr. Celedonio S. Roberto', 'Mr. Lauro A.D. Puno', 'Mr. Gerardo G. Navarro', 'Mr. Jose V. Bautista', 'Mr. Hilario C. Olveña II', 'Ms. Edna F. Angeles', 'Mrs. Jocelyn S. Caraang', 'Mrs. Sheryl B. Martin', 'Mrs. Melissa D.C. Abad', 'Mrs. Myrla D.C. Puno', 'Mrs. Roselyn B. Navarro', 'Mrs. Marissa V. David', 'Mrs. Annchiche-Lyn M. Olveña'] },
     { title: 'Matron of Honor', names: ['Remy Joy B. Bumanlag'] },
     { title: 'Best Man', names: ['Jan Nikko Montemayor'] },
     { title: 'Secondary Sponsors', names: ['Jasmin B. Monsalve', 'Ma. Angela C. Ocampo', 'Lloyd Arsid S.D. Gayla', 'Jacob Freud N. Salonga', 'Lorenza Genevieve B. Olveña', 'Shara Marie D.R. Baun', 'Eugene Dave B. Singque', 'Carl Eugene D.C. Bansil', 'Donnita Anne D.C. Roberto', 'Marielle R. Sanqui', 'Mark Daryl B. Bustos', 'Gerard Leo B. Navarro'] },
@@ -35,6 +44,16 @@ const FALLBACK_EVENT = {
 };
 
 const ENVELOPE_OPEN_DURATION = 1050;
+
+const GALLERY_IMAGES = [
+  { src: galleryOne, alt: 'Kathreen and Lawrence smiling together outdoors' },
+  { src: galleryTwo, alt: 'Kathreen and Lawrence portrait beneath the trees' },
+  { src: galleryThree, alt: 'Kathreen and Lawrence sharing a meal' },
+  { src: galleryFour, alt: 'Kathreen and Lawrence walking together' },
+  { src: galleryFive, alt: 'Kathreen and Lawrence laughing beside a welcome sign' },
+  { src: gallerySix, alt: 'Kathreen and Lawrence looking through their wedding plans' },
+  { src: gallerySeven, alt: 'Kathreen and Lawrence enjoying a quiet meal together' },
+];
 
 function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
@@ -106,13 +125,14 @@ function MusicControl({ src, audioRef, playing, onPlayingChange }) {
 
 function VenueCard({ venue, type, event }) {
   const isCeremony = type === 'Wedding ceremony';
-  const qrContent = <><span>[ QR CODE ]</span><em>Scan for directions to the {isCeremony ? 'church' : 'venue'}</em></>;
+  const venueImage = isCeremony ? churchImage : receptionImage;
+  const imageAlt = isCeremony ? 'Parroquia Del Espiritu Santo' : 'Sun Garden Hotel reception venue';
   return <article className="venue-card">
     <span className="eyebrow">{type}</span>
     <h3>{venue.name || 'Venue details coming soon'}</h3>
     <p className="venue-address">{venue.address || 'The couple will share the location details here.'}</p>
     {isCeremony ? <div className="venue-schedule"><span>{formatDate(event.couple.date)}</span><span>{formatTimeOfDay(event.couple.date)}</span></div> : <p className="venue-note">Reception festivities to follow immediately after the ceremony.</p>}
-    {venue.mapsUrl ? <a className="venue-qr" href={venue.mapsUrl} target="_blank" rel="noreferrer">{qrContent}</a> : <div className="venue-qr">{qrContent}</div>}
+    {venue.mapsUrl ? <a className="venue-map" href={venue.mapsUrl} target="_blank" rel="noreferrer"><span>View Map</span><div className="venue-qr"><img src={venueImage} alt={imageAlt} /></div></a> : <div className="venue-map"><span>View Map</span><div className="venue-qr"><img src={venueImage} alt={imageAlt} /></div></div>}
   </article>;
 }
 
@@ -129,10 +149,11 @@ function Entourage({ event }) {
     { title: 'To Clothe Us as One', names: secondary.slice(4, 8) },
     { title: 'To Bind Us Together', names: secondary.slice(8, 12) },
   ];
-  return <>
-    <Section id="entourage" className="entourage-section entourage-page-one"><div className="entourage-page"><div className="section-heading centered"><span className="eyebrow">The entourage</span></div><div className="parents-grid"><SponsorGroup title="Parents of the bride" names={event.parents?.bride} /><SponsorGroup title="Parents of the groom" names={event.parents?.groom} /></div><SponsorGroup title="Principal Sponsors" names={group('Principal Sponsors').names} className="principal-group" /></div></Section>
-    <Section className="entourage-section entourage-page-two"><div className="entourage-page"><div className="section-heading centered"><span className="eyebrow">The entourage</span></div><div className="honor-grid"><SponsorGroup title="Matron of Honor" names={group('Matron of Honor').names} /><SponsorGroup title="Best Man" names={group('Best Man').names} /></div><div className="secondary-sponsors"><h3>Secondary Sponsors</h3>{secondaryRows.map((row) => <div className="secondary-row" key={row.title}><h4>{row.title}</h4><div className="secondary-names">{row.names.map((name) => <span key={name}>{name}</span>)}</div></div>)}</div><div className="entourage-footer-grid"><SponsorGroup title="Ring Bearer" names={group('Ring Bearer').names} /><div className="entourage-footer-pair"><h3>Bible Bearer <span aria-hidden="true">·</span> Coin Bearer</h3><div className="footer-pair-names">{group('Bible Bearer').names.map((name) => <span key={`bible-${name}`}>{name}</span>)}<span className="footer-pair-divider" aria-hidden="true">·</span>{group('Coin Bearer').names.map((name) => <span key={`coin-${name}`}>{name}</span>)}</div></div><SponsorGroup title="Flower Girls" names={group('Flower Girls').names} /></div></div></Section>
-  </>;
+  return <Section id="entourage" className="entourage-section"><div className="entourage-page"><div className="section-heading centered"><span className="eyebrow">The entourage</span></div><div className="parents-grid"><SponsorGroup title="Parents of the bride" names={event.parents?.bride} /><SponsorGroup title="Parents of the groom" names={event.parents?.groom} /></div><SponsorGroup title="Principal Sponsors" names={group('Principal Sponsors').names} className="principal-group" /><div className="honor-grid"><SponsorGroup title="Matron of Honor" names={group('Matron of Honor').names} /><SponsorGroup title="Best Man" names={group('Best Man').names} /></div><div className="secondary-sponsors"><h3>Secondary Sponsors</h3>{secondaryRows.map((row) => <div className="secondary-row" key={row.title}><h4>{row.title}</h4><div className="secondary-names">{row.names.map((name) => <span key={name}>{name}</span>)}</div></div>)}</div><div className="entourage-footer-grid"><SponsorGroup title="Ring Bearer" names={group('Ring Bearer').names} /><div className="entourage-footer-pair"><h3>Bible Bearer <span aria-hidden="true">·</span> Coin Bearer</h3><div className="footer-pair-names">{group('Bible Bearer').names.map((name) => <span key={`bible-${name}`}>{name}</span>)}<span className="footer-pair-divider" aria-hidden="true">·</span>{group('Coin Bearer').names.map((name) => <span key={`coin-${name}`}>{name}</span>)}</div></div><SponsorGroup title="Flower Girls" names={group('Flower Girls').names} /></div></div></Section>;
+}
+
+function Gallery() {
+  return <Section className="gallery-section"><div className="gallery-heading"><span className="eyebrow">Wedding memories</span><h2>Let's Relive the Happy Moments</h2></div><div className="gallery-grid">{GALLERY_IMAGES.map((image, index) => <figure className={`gallery-photo gallery-photo-${index + 1}`} key={image.src}><img src={image.src} alt={image.alt} loading="lazy" /></figure>)}</div></Section>;
 }
 
 function RsvpForm({ event }) {
@@ -182,16 +203,15 @@ function Invitation({ event }) {
     startInvitationMusic(musicRef.current).then(setMusicPlaying);
     window.setTimeout(() => setOpened(true), reduce ? 0 : ENVELOPE_OPEN_DURATION);
   };
-  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Motif</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
+  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Attire</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In his light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
-    <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow">The details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
-    <Section className="quote-section"><div className="quote-mark">“</div><blockquote>Love is not just looking at each other, it’s looking in the same direction.</blockquote><span className="eyebrow">— Antoine de Saint-Exupéry</span></Section>
+    <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow" data-section-label="The details">Venue details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
     <Entourage event={liveEvent} />
-    <Section id="motif" className="attire-section"><span className="eyebrow">Guest attire</span><h2 className="attire-heading">Dress Code</h2><p className="attire-description">{formatAttire(liveEvent.attire)}</p><div className="swatches"><span style={{ background: '#522000' }} /><span style={{ background: '#463932' }} /><span style={{ background: '#965c41' }} /><span style={{ background: '#c5b59e' }} /><span style={{ background: '#71462f' }} /></div><div className="attire-illustration"><img src={peopleImage} alt="Guests wearing earth-tone semi-formal attire" /></div><p className="attire-note">Kindly avoid white, ivory, and champagne, reserved for the couple.</p></Section>
-    <Section className="gift-section"><div className="gift-card"><div className="gift-icon"><Gift size={22} /></div><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{liveEvent.giftNote}</p></div></Section>
-    <Section className="gallery-section"><div className="gallery-card"><div className="gallery-icon"><Heart size={22} /></div><span className="eyebrow">Wedding memories</span><h2>Let’s relive<br /><em>the happy moments.</em></h2><p>We’ll share the photographs from our special day here.</p>{liveEvent.galleryPublished && liveEvent.galleryUrl ? <a className="button button-dark" href={liveEvent.galleryUrl} target="_blank" rel="noreferrer">View wedding photos <ExternalLink size={16} /></a> : <span className="coming-soon">Photos coming soon</span>}</div></Section>
-    <Section id="rsvp" className="rsvp-section"><div className="rsvp-intro"><span className="eyebrow">RSVP</span><h2>Kindly Respond</h2><p>Kindly RSVP by {new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(liveEvent.rsvpDeadline))}. Please confirm your attendance through Messenger or via SMS at 0917 368 6440.</p></div><RsvpForm event={liveEvent} /></Section>
+    <Section id="motif" className="attire-section"><span className="eyebrow">Guests attire</span><h2 className="attire-heading">Dress Code</h2><p className="attire-description">{formatAttire(liveEvent.attire)}</p><div className="swatches"><span style={{ background: '#482214' }} /><span style={{ background: '#5f5043' }} /><span style={{ background: '#b18467' }} /><span style={{ background: '#c9b9a0' }} /><span style={{ background: '#765035' }} /></div><div className="attire-illustration"><img src={peopleImage} alt="Guests wearing earth-tone semi-formal attire" /></div></Section>
+    <Section className="gift-section"><div className="gift-card"><div className="gift-icon"><Heart size={22} /></div><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{liveEvent.giftNote}</p></div></Section>
+    <Gallery />
+    <Section id="rsvp" className="rsvp-section"><div className="rsvp-intro"><span className="eyebrow">RSVP</span><h2>Kindly Respond</h2><p>Kindly RSVP by {new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(liveEvent.rsvpDeadline))}.</p></div><RsvpForm event={liveEvent} /></Section>
     <footer><img className="footer-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /><p>With love, Kathreen & Lawrence</p><span className="eyebrow">October 23, 2026</span></footer>
   </main></>}</div>;
 }

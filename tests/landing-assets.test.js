@@ -19,7 +19,10 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /alt="Kathreen and Lawrence monogram"/);
   assert.match(source, /className={`welcome-envelope \$\{opening \? 'is-opening' : ''\}`}/);
   assert.match(source, /className="envelope-flap"/);
-  assert.match(source, /disabled=\{opening\}/);
+  assert.match(source, /disabled=\{opening \|\| !ready\}/);
+  assert.match(source, /Loading invitation…/);
+  assert.match(source, /setEventReady\(true\)/);
+  assert.match(source, /ready=\{eventReady\}/);
   assert.match(source, /startInvitationMusic\(musicRef\.current\)/);
   assert.match(source, /setOpened\(true\), reduce \? 0 : ENVELOPE_OPEN_DURATION/);
   assert.doesNotMatch(welcomeCard, /The wedding of/);

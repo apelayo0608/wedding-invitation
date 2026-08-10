@@ -107,7 +107,7 @@ function Section({ children, className = '', delay = 0, ...sectionProps }) {
   return <motion.section {...sectionProps} className={`section ${className}`} initial={reduce ? false : { opacity: 0, y: 24 }} whileInView={reduce ? {} : { opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7, delay }}>{children}</motion.section>;
 }
 
-function OpenInvitation({ onOpen, event, opening }) {
+function OpenInvitation({ onOpen, event, opening, ready }) {
   const reduce = useReducedMotion();
   return <motion.div className={`welcome-screen ${opening ? 'is-opening' : ''}`} initial={{ opacity: 1 }} exit={{ opacity: 0, scale: reduce ? 1 : 1.04 }} transition={{ duration: reduce ? 0 : 0.6 }}>
     <div className="welcome-photo" />
@@ -117,7 +117,7 @@ function OpenInvitation({ onOpen, event, opening }) {
           <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
           <p className="script welcome-date">{formatDate(event.couple.date)}</p>
           <p className="welcome-note">In His light, we found each other.</p>
-          <button className="button button-dark" onClick={onOpen} disabled={opening} aria-busy={opening}>{opening ? 'Opening…' : <><Heart size={16} /> Open invitation</>}</button>
+          <button className="button button-dark" onClick={onOpen} disabled={opening || !ready} aria-busy={opening || !ready}>{opening ? 'Opening…' : ready ? <><Heart size={16} /> Open invitation</> : 'Loading invitation…'}</button>
         </div>
       </div>
       <div className="envelope-flap" aria-hidden="true" />
@@ -203,10 +203,19 @@ function RsvpForm({ event }) {
 
 function Invitation({ event }) {
   const [liveEvent, setLiveEvent] = useState(event);
+  const [eventReady, setEventReady] = useState(false);
   const [opened, setOpened] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const musicRef = React.useRef(null);
-  useEffect(() => { getPublicEvent().then((data) => { if (data) setLiveEvent((current) => ({ ...current, ...data })); }); }, []);
+  useEffect(() => {
+    let mounted = true;
+    getPublicEvent().then((data) => {
+      if (mounted && data) setLiveEvent((current) => ({ ...current, ...data }));
+    }).finally(() => {
+      if (mounted) setEventReady(true);
+    });
+    return () => { mounted = false; };
+  }, []);
   const [opening, setOpening] = useState(false);
   const reduce = useReducedMotion();
   const openInvitation = () => {
@@ -215,7 +224,7 @@ function Invitation({ event }) {
     startInvitationMusic(musicRef.current).then(setMusicPlaying);
     window.setTimeout(() => setOpened(true), reduce ? 0 : ENVELOPE_OPEN_DURATION);
   };
-  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Attire</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
+  return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} ready={eventReady} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Attire</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
     <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In His light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow" data-section-label="The details">Venue details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>

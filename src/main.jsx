@@ -32,10 +32,10 @@ const FALLBACK_EVENT = {
   galleryPublished: false,
   musicUrl: '',
   sponsors: [
-    { title: 'Principal Sponsors', names: ['Mr. Danilo S. Hermogenes', 'Mr. Gerardo S. Domingo', 'Mr. Arnel S. Vitug', 'Mr. Celedonio S. Roberto', 'Mr. Lauro A.D. Puno', 'Mr. Gerardo G. Navarro', 'Mr. Jose V. Bautista', 'Mr. Hilario C. Olveña II', 'Ms. Edna F. Angeles', 'Mrs. Jocelyn S. Caraang', 'Mrs. Sheryl B. Martin', 'Mrs. Melissa D.C. Abad', 'Mrs. Myrla D.C. Puno', 'Mrs. Roselyn B. Navarro', 'Mrs. Marissa V. David', 'Mrs. Annchiche-Lyn M. Olveña'] },
+    { title: 'Principal Sponsors', names: ['Mr. Danilo S. Hermogenes', 'Mr. Gerardo S. Domingo', 'Mr. Arnel A. Vitug', 'Mr. Celedonio S. Roberto', 'Mr. Lauro A.D. Puno', 'Mr. Gerardo G. Navarro', 'Mr. Jose V. Bautista', 'Mr. Hilarion C. Olveña II', 'Ms. Edna F. Angeles', 'Mrs. Jocelyn S. Caraang', 'Mrs. Sheryl B. Martin', 'Mrs. Melissa D.C. Abad', 'Mrs. Myrla D.C. Puno', 'Mrs. Roselyn B. Navarro', 'Mrs. Marissa V. David', 'Mrs. Annchic-Lyn M. Olveña'] },
     { title: 'Matron of Honor', names: ['Remy Joy B. Bumanlag'] },
     { title: 'Best Man', names: ['Jan Nikko Montemayor'] },
-    { title: 'Secondary Sponsors', names: ['Jasmin B. Monsalve', 'Ma. Angela C. Ocampo', 'Lloyd Arsid S.D. Gayla', 'Jacob Freud N. Salonga', 'Lorenza Genevieve B. Olveña', 'Shara Marie D.R. Baun', 'Eugene Dave B. Singque', 'Carl Eugene D.C. Bansil', 'Donnita Anne D.C. Roberto', 'Marielle R. Sanqui', 'Mark Daryl B. Bustos', 'Gerard Leo B. Navarro'] },
+    { title: 'Secondary Sponsors', names: ['Jasmin B. Monsalve', 'Ma. Angela C. Ocampo', 'Lloyd Arsid S.D. Gayla', 'Jacob Freud N. Salonga', 'Lorenza Genevieve B. Olveña', 'Shara Marie D.R. Baun', 'Eugene Dave B. Singque', 'Carl Eugene D.C. Bansil', 'Donnita Anne D.C. Roberto', 'Marielle R. Sanqui', 'Mark Daryl B. Bustos', 'John Levin Y. Delos Santos'] },
     { title: 'Ring Bearer', names: ['Jakiro Rennzel D.L. Dela Cruz'] },
     { title: 'Bible Bearer', names: ['Marion Jared R. Dung'] },
     { title: 'Coin Bearer', names: ['Lecyan Juan B. Florano'] },

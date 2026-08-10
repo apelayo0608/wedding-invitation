@@ -27,7 +27,7 @@ const FALLBACK_EVENT = {
   ceremony: { name: 'Parroquia Del Espiritu Santo', address: 'San Luis, Tarlac City', mapsUrl: 'https://maps.app.goo.gl/NsMSXusnMtRDSasY9', embedUrl: '' },
   reception: { name: 'Sun Garden Hotel', address: 'Brgy. Sto. Cristo, Aquino Subd., Tarlac City', mapsUrl: 'https://maps.app.goo.gl/qTZtBmV5DMJgWH1J9', embedUrl: '' },
   attire: 'Semi-formal attire in shades of brown, beige, khaki, and other earth tones.',
-  giftNote: 'Your presence is the only gift we need. Should you wish to give, a monetary gift would be appreciated.',
+  giftNote: 'Should you wish to give, a monetary gift would be appreciated.',
   galleryUrl: '',
   galleryPublished: false,
   musicUrl: '',

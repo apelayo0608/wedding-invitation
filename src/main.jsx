@@ -82,7 +82,7 @@ function formatAttire(value) {
 
 function formatGiftNote(value) {
   const text = String(value || '').trim();
-  return text.replace(/^Your presence is the only gift we need\.\s*/i, '').replace(/^Should you wish to give,?\s*/i, '').trim() || 'A monetary gift would be appreciated.';
+  return text.replace(/^Your presence is the only gift we need\.\s*/i, '').trim() || 'Should you wish to give, a monetary gift would be appreciated.';
 }
 
 function getCompanionCount(value) {
@@ -116,7 +116,7 @@ function OpenInvitation({ onOpen, event, opening }) {
         <div className="welcome-card">
           <img className="welcome-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" />
           <p className="script welcome-date">{formatDate(event.couple.date)}</p>
-          <p className="welcome-note">In his light, we found each other.</p>
+          <p className="welcome-note">In His light, we found each other.</p>
           <button className="button button-dark" onClick={onOpen} disabled={opening} aria-busy={opening}>{opening ? 'Opening…' : <><Heart size={16} /> Open invitation</>}</button>
         </div>
       </div>
@@ -216,7 +216,7 @@ function Invitation({ event }) {
     window.setTimeout(() => setOpened(true), reduce ? 0 : ENVELOPE_OPEN_DURATION);
   };
   return <div className="app-shell"><audio ref={musicRef} src={liveEvent.musicUrl || undefined} crossOrigin="anonymous" preload="auto" loop aria-hidden="true" /><AnimatePresence>{!opened && <OpenInvitation key="welcome" event={liveEvent} opening={opening} onOpen={openInvitation} />}</AnimatePresence>{opened && <><header className="site-nav"><a href="#top" className="brand" aria-label="Kathreen and Lawrence"><img className="site-nav-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /></a><nav><a href="#details">Details</a><a href="#entourage">Entourage</a><a href="#motif">Attire</a><a href="#rsvp">RSVP</a></nav><MusicControl src={liveEvent.musicUrl} audioRef={musicRef} playing={musicPlaying} onPlayingChange={setMusicPlaying} /></header><main id="top">
-    <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In his light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
+    <section className="hero section"><div className="hero-image" aria-hidden="true" /><div className="hero-copy"><span className="eyebrow">The wedding of</span><h1>{liveEvent.couple.bride}<em>&</em>{liveEvent.couple.groom}</h1><div className="hero-event-meta"><span>{formatDate(liveEvent.couple.date)}</span><span aria-hidden="true">·</span><span>{formatTime(liveEvent.couple.date)}</span></div><p className="hero-venue">{liveEvent.ceremony.name} <span aria-hidden="true">·</span> {liveEvent.ceremony.address}</p><div className="hero-rule" /><p>In His light, we found each other.</p><a href="#details" className="scroll-cue"><ChevronDown size={18} /> Explore the invitation</a></div></section>
     <Section className="intro-section"><span className="eyebrow">Save the date</span><h2 className="date-heading">{formatDateOnly(liveEvent.couple.date)}</h2><p className="date-subtitle"><span>{new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Manila' }).format(new Date(liveEvent.couple.date))}</span><span aria-hidden="true">·</span><span>{formatTimeOfDay(liveEvent.couple.date)}</span></p><Countdown target={liveEvent.couple.date} /></Section>
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow" data-section-label="The details">Venue details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
     <Entourage event={liveEvent} />

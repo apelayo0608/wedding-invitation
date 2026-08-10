@@ -23,7 +23,7 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /startInvitationMusic\(musicRef\.current\)/);
   assert.match(source, /setOpened\(true\), reduce \? 0 : ENVELOPE_OPEN_DURATION/);
   assert.doesNotMatch(welcomeCard, /The wedding of/);
-  assert.match(source, /In his light, we found each other\./);
+  assert.match(source, /In His light, we found each other\./);
   assert.match(source, /className="date-heading"/);
   assert.match(source, /className="date-subtitle"/);
   assert.match(source, /formatDateOnly\(liveEvent\.couple\.date\)/);

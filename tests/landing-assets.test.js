@@ -78,6 +78,9 @@ test('uses the Kath landing assets on the welcome screen', () => {
   assert.match(source, /className="rsvp-success-mark"/);
   assert.match(source, /className="rsvp-success-mark"[^>]*><img src=\{monogramImage\}/);
   assert.match(source, /<h3>Thank You<\/h3>/);
+  assert.match(source, /className="companions"/);
+  assert.match(source, /Companion names/);
+  assert.match(source, /Add guest/);
   assert.match(styles, /\.rsvp-section \{[^}]*width: 100%[^}]*background: #2d211a/);
   assert.match(styles, /\.rsvp-intro h2 \{[^}]*color: #c29a5b/);
   assert.match(styles, /\.rsvp-success-mark \{[^}]*border: 2px solid #b99151/);

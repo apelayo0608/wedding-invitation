@@ -161,6 +161,16 @@ em { font-style: italic; font-weight: 400; }
 .rsvp-form input:focus, .rsvp-form textarea:focus { border-color: #c69b67; box-shadow: 0 0 0 3px rgba(198, 155, 103, .14); }
 .settings-card input:focus, .settings-card textarea:focus, .sponsor-editor input:focus { border-color: var(--brown); box-shadow: 0 0 0 3px rgba(82,32,0,.08); }
 .rsvp-form fieldset { margin: 0; padding: 0; border: 0; }
+.companions { display: grid; gap: 12px; }
+.companion-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--ink); font-size: .85rem; font-weight: 600; }
+.companion-heading em { color: var(--muted); font-size: .75rem; font-style: normal; font-weight: 400; }
+.companion-add { width: auto; min-height: 36px; padding: 0 13px; border-color: #dfd0c3; font-size: .72rem; }
+.companion-add:disabled { cursor: not-allowed; opacity: .45; }
+.companion-list { display: grid; gap: 10px; }
+.companion-row { display: grid; grid-template-columns: 1fr 38px; gap: 8px; }
+.companion-row input { min-height: 50px; }
+.companion-remove { border: 1px solid #dfd0c3; border-radius: 5px; color: var(--muted); background: transparent; font-size: 1.35rem; line-height: 1; }
+.companion-remove:hover { border-color: #c69b67; color: var(--ink); background: #fbf6f1; }
 .choice-row { display: flex; gap: 14px; }
 .choice { position: relative; display: flex !important; flex: 1; align-items: center; justify-content: center; gap: 0 !important; min-height: 58px; padding: 0 13px; border: 2px solid #dfd0c3; border-radius: 999px; color: #7e6c60; cursor: pointer; text-align: center; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
 .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
@@ -364,6 +374,8 @@ th { color: var(--muted); font-size: .66rem; letter-spacing: .08em; text-transfo
   .rsvp-success strong { margin-top: 54px; font-size: 1.55rem; }
   .rsvp-success-date { font-size: .65rem; letter-spacing: .28em; }
   .choice-row { flex-direction: column; }
+  .companion-heading { align-items: flex-start; flex-direction: column; }
+  .companion-add { align-self: flex-start; }
   .save-bar { align-items: flex-start; flex-direction: column; }
   .two-col { grid-template-columns: 1fr; }
   .admin-card { padding: 24px 18px; }

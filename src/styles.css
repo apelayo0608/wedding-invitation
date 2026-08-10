@@ -125,7 +125,7 @@ em { font-style: italic; font-weight: 400; }
 .attire-description { max-width: 1080px; margin: 0; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-style: italic; }
 .swatches { display: flex; gap: 38px; margin-top: 48px; }
 .swatches span { width: 94px; height: 94px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px #d7c7b8; }
-.attire-illustration { display: grid; place-items: center; width: min(690px, 100%); min-height: 220px; margin-top: 48px; border: 8px solid #5f5043; border-radius: 2px; background: #f5eee6; }
+.attire-illustration { display: grid; place-items: center; width: min(690px, 100%); min-height: 220px; margin-top: 48px; background: #f5eee6; }
 .attire-illustration img { display: block; width: min(430px, 90%); height: auto; }
 .attire-note { margin: 46px 0 0; color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; }
 .gift-section { width: 100%; max-width: none; padding: 90px 5% 100px; background: #3b2d25; text-align: left; }

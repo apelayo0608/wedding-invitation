@@ -80,6 +80,11 @@ function formatAttire(value) {
   return text ? `Guests are kindly encouraged to wear ${text.charAt(0).toLowerCase()}${text.slice(1)}` : 'Guests are kindly encouraged to wear semi-formal attire in shades of brown, beige, khaki, and other earth tones.';
 }
 
+function formatGiftNote(value) {
+  const text = String(value || '').trim();
+  return text.replace(/^Your presence is the only gift we need\.\s*/i, '').replace(/^Should you wish to give,?\s*/i, '').trim() || 'A monetary gift would be appreciated.';
+}
+
 function getCompanionCount(value) {
   if (Array.isArray(value)) return value.length;
   const count = Number(value);
@@ -216,7 +221,7 @@ function Invitation({ event }) {
     <Section id="details" className="details-section"><div className="section-heading"><span className="eyebrow" data-section-label="The details">Venue details</span></div><div className="venue-grid"><VenueCard type="Wedding ceremony" venue={liveEvent.ceremony} event={liveEvent} /><VenueCard type="Wedding reception" venue={liveEvent.reception} event={liveEvent} /></div></Section>
     <Entourage event={liveEvent} />
     <Section id="motif" className="attire-section"><span className="eyebrow">Guests attire</span><h2 className="attire-heading">Dress Code</h2><p className="attire-description">{formatAttire(liveEvent.attire)}</p><div className="swatches"><span style={{ background: '#482214' }} /><span style={{ background: '#5f5043' }} /><span style={{ background: '#b18467' }} /><span style={{ background: '#c9b9a0' }} /><span style={{ background: '#765035' }} /></div><div className="attire-illustration"><img src={peopleImage} alt="Guests wearing earth-tone semi-formal attire" /></div></Section>
-    <Section className="gift-section"><div className="gift-card"><div className="gift-icon"><Heart size={22} /></div><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{liveEvent.giftNote}</p></div></Section>
+    <Section className="gift-section"><div className="gift-card"><div className="gift-icon"><Heart size={22} /></div><span className="eyebrow">Gift information</span><h2>Your presence<br /><em>is the only gift we need.</em></h2><p>{formatGiftNote(liveEvent.giftNote)}</p></div></Section>
     <Gallery />
     <Section id="rsvp" className="rsvp-section"><div className="rsvp-intro"><span className="eyebrow">RSVP</span><h2>Kindly Respond</h2><p>Kindly RSVP by {new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(liveEvent.rsvpDeadline))}.</p></div><RsvpForm event={liveEvent} /></Section>
     <footer><img className="footer-monogram" src={monogramImage} alt="Kathreen and Lawrence monogram" /><p>With love, Kathreen & Lawrence</p><span className="eyebrow">October 23, 2026</span></footer>
